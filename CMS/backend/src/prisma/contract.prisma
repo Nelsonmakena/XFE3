@@ -9,5 +9,162 @@ model account {
 
 model account_role {
  account_role_id String @id @default(uuid())
- role_name String
+ role_name String @unique
+}
+model employee {
+  employee_id Uuid @id @default(uuid())
+  first_name String
+  middle_name String
+  last_name String
+  added_at DateTime @default(now())
+  account_id String
+
+  account account @relation(fields:[account_id],references: [account_id])
+
+
+}
+model  patient {
+  patient_id Uuid @id @default(uuid())
+  first_name String
+  middle_name String 
+  last_name String
+  date_of_birth DateTime
+  address String 
+  added_at DateTime @default(now())
+  underlying_conditions underlying_condition []
+  encounters encounter []
+}
+
+model underlying_condition{
+ underlying_condition Uuid @id @default(uuid())
+ condition_name String
+ diagnosed_at DateTime
+ notes String 
+ date_added DateTime @default(now())
+ patient_id Uuid 
+
+patient patient @relation(fields: [patient_id],references: [patient_id]) 
+
+ }
+ model encounter {
+  encounter_id Uuid @id @default(uuid())
+  patient_id Uuid
+  encounter_type String
+  check_in_at DateTime @default(now())
+  complaints String 
+  created_by Uuid 
+  patient patient @relation(fields: [patient_id],references: [patient_id])
+  employee employee @relation(fields: [created_by],references: [employee_id])
+ differential_diagnosis differential_diagnosis [] 
+ }
+ 
+ model clinical_assessment {
+  assessment_id Uuid @id @default(uuid())
+  encounter_id Uuid
+  assessed_by Uuid
+  assessment   String
+  encounter encounter @relation(fields:[encounter_id],references: [encounter_id])
+  doctor employee @relation(fields: [assessed_by],references: [employee_id])
+
+ }
+ model differential_diagnosis {
+  differential_id Uuid @id @default(uuid())
+  encounter_id Uuid
+  description String
+  notes String 
+  encounter encounter @relation(fields: [encounter_id],references: [encounter_id])
+ }
+ model lab_request {
+  lab_request_id Uuid @id @default(uuid())
+  encounter_id Uuid
+  laboratory_note String
+  status String
+  time_requested DateTime @default(now())
+   encounter encounter @relation(fields: [encounter_id],references: [encounter_id])
+ }
+ model lab_test {
+  lab_test_id Uuid @id @default(uuid())
+  lab_request_id Uuid
+  test_name String 
+  status String
+  lab_request lab_request @relation(fields: [lab_request_id],references: [lab_request_id])
+ }
+ model lab_test_results {
+  lab_test_results Uuid @id @default( uuid())
+  lab_test_id Uuid
+  results String
+  performed_by Uuid
+  performed_at DateTime
+  lab_test lab_test @relation(fields: [lab_test_id],references: [lab_test_id])
+ }
+ model final_diagnosis {
+   final_diagnosis_id Uuid @id @default( uuid())
+   encounter_id Uuid @unique
+   diagnosis String
+   notes String
+  encounter encounter @relation(fields: [encounter_id],references: [encounter_id])
+ }
+ model prescription {
+   prescription_id Uuid @id @default(uuid())
+   final_diagnosis_id Uuid
+   final_diagnosis final_diagnosis @relation(fields: [final_diagnosis_id],references: [final_diagnosis_id])
+   prescription_item prescription_item []
+ }
+ model prescription_item {
+  prescription_item_id Uuid  @id @default(uuid())
+  prescription_id Uuid 
+  medicine_name String
+  dosage Int 
+  frequency Int
+  duration Int
+  instructions String
+  prescription prescription @relation(fields: [prescription_id],references: [prescription_id])
+ }
+
+ model category {
+   category_id Uuid @id @default(uuid())
+   category_name String
+   medicine medicine []
+   inventory inventory @relation(fields: [category_id],references: [category_id])
+ }
+
+model inventory  {
+  inventory_id Uuid @id @default(uuid())
+  category_id Uuid @unique
+  created_at DateTime @default(now())
+  category category @relation(fields: [category_id],references: [category_id])
+}
+
+model medicine {
+  medicine_id Uuid @id @default(uuid())
+  category_id Uuid
+  medicine_name String
+  form String
+  base_unit Int
+  category category @relation(fields: [category_id],references: [category_id])
+  receiving_stock receiving_stock []
+}
+
+model receiving_stock {
+  receiving_id Uuid @id @default(uuid())
+  medicine_id Uuid
+  supplier_name String 
+  boxes_received Int
+  units_per_box Int
+  received_by Uuid
+  received_at DateTime @default(now())
+   
+   medicine medicine @relation(fields: [medicine_id],references: [medicine_id])
+
+}
+model dispensing {
+  dispensing_id Uuid @id @default(uuid())
+  prescription_item_id Uuid 
+  quantity_dispensed Int 
+  dispensed_by Uuid 
+  dispensed_at DateTime @default(now ())
+  medicine_id Uuid 
+    medicine medicine @relation(fields: [medicine_id],references: [medicine_id])
+   employee employee @relation(fields: [dispensed_by],references: [employee_id])
+
 }
