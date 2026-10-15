@@ -133,6 +133,7 @@ model inventory  {
   category_id Uuid @unique
   created_at DateTime @default(now())
   category category @relation(fields: [category_id],references: [category_id])
+   receiving_stock receiving_stock []
 }
 
 model medicine {
@@ -142,19 +143,19 @@ model medicine {
   form String
   base_unit Int
   category category @relation(fields: [category_id],references: [category_id])
-  receiving_stock receiving_stock []
+ 
 }
 
 model receiving_stock {
   receiving_id Uuid @id @default(uuid())
-  medicine_id Uuid
+  inventory_id Uuid 
   supplier_name String 
   boxes_received Int
   units_per_box Int
   received_by Uuid
   received_at DateTime @default(now())
    
-   medicine medicine @relation(fields: [medicine_id],references: [medicine_id])
+  inventory inventory @relation(fields: [inventory_id] ,references: [inventory_id])
 
 }
 model dispensing {

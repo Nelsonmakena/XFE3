@@ -818,6 +818,21 @@
                   "model": "category",
                   "namespace": "public"
                 }
+              },
+              "receiving_stock": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "inventory_id"
+                  ],
+                  "targetFields": [
+                    "inventory_id"
+                  ]
+                },
+                "to": {
+                  "model": "receiving_stock",
+                  "namespace": "public"
+                }
               }
             },
             "storage": {
@@ -1112,21 +1127,6 @@
                 },
                 "to": {
                   "model": "category",
-                  "namespace": "public"
-                }
-              },
-              "receiving_stock": {
-                "cardinality": "1:N",
-                "on": {
-                  "localFields": [
-                    "medicine_id"
-                  ],
-                  "targetFields": [
-                    "medicine_id"
-                  ]
-                },
-                "to": {
-                  "model": "receiving_stock",
                   "namespace": "public"
                 }
               }
@@ -1435,7 +1435,7 @@
                   "kind": "scalar"
                 }
               },
-              "medicine_id": {
+              "inventory_id": {
                 "nullable": false,
                 "type": {
                   "codecId": "pg/uuid@1",
@@ -1479,19 +1479,19 @@
               }
             },
             "relations": {
-              "medicine": {
+              "inventory": {
                 "cardinality": "N:1",
                 "nullable": false,
                 "on": {
                   "localFields": [
-                    "medicine_id"
+                    "inventory_id"
                   ],
                   "targetFields": [
-                    "medicine_id"
+                    "inventory_id"
                   ]
                 },
                 "to": {
-                  "model": "medicine",
+                  "model": "inventory",
                   "namespace": "public"
                 }
               }
@@ -1501,8 +1501,8 @@
                 "boxes_received": {
                   "column": "boxes_received"
                 },
-                "medicine_id": {
-                  "column": "medicine_id"
+                "inventory_id": {
+                  "column": "inventory_id"
                 },
                 "received_at": {
                   "column": "received_at"
@@ -2750,7 +2750,7 @@
                   "dataType": "pg/int4",
                   "nullable": false
                 },
-                "medicine_id": {
+                "inventory_id": {
                   "codecId": "pg/uuid@1",
                   "dataType": "pg/uuid",
                   "nullable": false
@@ -2788,31 +2788,31 @@
               "foreignKeys": [
                 {
                   "index": {
-                    "name": "receiving_stock_medicine_id_idx_8f174ab8"
+                    "name": "receiving_stock_inventory_id_idx_d5937af2"
                   },
                   "source": {
                     "columns": [
-                      "medicine_id"
+                      "inventory_id"
                     ],
                     "namespaceId": "public",
                     "tableName": "receiving_stock"
                   },
                   "target": {
                     "columns": [
-                      "medicine_id"
+                      "inventory_id"
                     ],
                     "namespaceId": "public",
-                    "tableName": "medicine"
+                    "tableName": "inventory"
                   }
                 }
               ],
               "indexes": [
                 {
                   "columns": [
-                    "medicine_id"
+                    "inventory_id"
                   ],
-                  "name": "receiving_stock_medicine_id_idx_8f174ab8",
-                  "prefix": "receiving_stock_medicine_id_idx",
+                  "name": "receiving_stock_inventory_id_idx_d5937af2",
+                  "prefix": "receiving_stock_inventory_id_idx",
                   "unique": false
                 }
               ],
@@ -2904,7 +2904,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "bf700ea0dde924af96762079fcb417a5596f93e40b057035fba8e2be1f10f7f3"
+    "storageHash": "d76c87339121c309b6d087fc86594e40f010068bbea2a0d3e99072efc132a31b"
   },
   "execution": {
     "executionHash": "aac86a2338bdad001c14c6ae4afca0de19e30ed64097151d6d62143e3ab3ae6f",

@@ -18,7 +18,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'bf700ea0dde924af96762079fcb417a5596f93e40b057035fba8e2be1f10f7f3'>;
+  StorageHashBase<'d76c87339121c309b6d087fc86594e40f010068bbea2a0d3e99072efc132a31b'>;
 export type ExecutionHash =
   ExecutionHashBase<'aac86a2338bdad001c14c6ae4afca0de19e30ed64097151d6d62143e3ab3ae6f'>;
 export type ProfileHash =
@@ -346,7 +346,7 @@ export type FieldOutputTypes = {
     };
     readonly receiving_stock: {
       readonly boxes_received: CodecTypes['pg/int4@1']['output'];
-      readonly medicine_id: CodecTypes['pg/uuid@1']['output'];
+      readonly inventory_id: CodecTypes['pg/uuid@1']['output'];
       readonly received_at: CodecTypes['pg/timestamptz-temporal@1']['output'];
       readonly received_by: CodecTypes['pg/uuid@1']['output'];
       readonly receiving_id: CodecTypes['pg/uuid@1']['output'];
@@ -477,7 +477,7 @@ export type FieldInputTypes = {
     };
     readonly receiving_stock: {
       readonly boxes_received: CodecTypes['pg/int4@1']['input'];
-      readonly medicine_id: CodecTypes['pg/uuid@1']['input'];
+      readonly inventory_id: CodecTypes['pg/uuid@1']['input'];
       readonly received_at: CodecTypes['pg/timestamptz-temporal@1']['input'];
       readonly received_by: CodecTypes['pg/uuid@1']['input'];
       readonly receiving_id: CodecTypes['pg/uuid@1']['input'];
@@ -608,7 +608,7 @@ export type StorageColumnTypes = {
     };
     readonly receiving_stock: {
       readonly boxes_received: CodecTypes['pg/int4@1']['output'];
-      readonly medicine_id: CodecTypes['pg/uuid@1']['output'];
+      readonly inventory_id: CodecTypes['pg/uuid@1']['output'];
       readonly received_at: CodecTypes['pg/timestamptz-temporal@1']['output'];
       readonly received_by: CodecTypes['pg/uuid@1']['output'];
       readonly receiving_id: CodecTypes['pg/uuid@1']['output'];
@@ -739,7 +739,7 @@ export type StorageColumnInputTypes = {
     };
     readonly receiving_stock: {
       readonly boxes_received: CodecTypes['pg/int4@1']['input'];
-      readonly medicine_id: CodecTypes['pg/uuid@1']['input'];
+      readonly inventory_id: CodecTypes['pg/uuid@1']['input'];
       readonly received_at: CodecTypes['pg/timestamptz-temporal@1']['input'];
       readonly received_by: CodecTypes['pg/uuid@1']['input'];
       readonly receiving_id: CodecTypes['pg/uuid@1']['input'];
@@ -841,7 +841,8 @@ export namespace Models {
     created_at: CodecTypes['pg/timestamptz-temporal@1']['output'];
     inventory_id: CodecTypes['pg/uuid@1']['output'];
     category: public_category;
-    readonly [RelationKeys]?: 'category';
+    receiving_stock: public_receiving_stock[];
+    readonly [RelationKeys]?: 'category' | 'receiving_stock';
   };
   export type public_lab_request = {
     encounter_id: CodecTypes['pg/uuid@1']['output'];
@@ -876,8 +877,7 @@ export namespace Models {
     medicine_id: CodecTypes['pg/uuid@1']['output'];
     medicine_name: CodecTypes['pg/text@1']['output'];
     category: public_category;
-    receiving_stock: public_receiving_stock[];
-    readonly [RelationKeys]?: 'category' | 'receiving_stock';
+    readonly [RelationKeys]?: 'category';
   };
   export type public_patient = {
     added_at: CodecTypes['pg/timestamptz-temporal@1']['output'];
@@ -911,14 +911,14 @@ export namespace Models {
   };
   export type public_receiving_stock = {
     boxes_received: CodecTypes['pg/int4@1']['output'];
-    medicine_id: CodecTypes['pg/uuid@1']['output'];
+    inventory_id: CodecTypes['pg/uuid@1']['output'];
     received_at: CodecTypes['pg/timestamptz-temporal@1']['output'];
     received_by: CodecTypes['pg/uuid@1']['output'];
     receiving_id: CodecTypes['pg/uuid@1']['output'];
     supplier_name: CodecTypes['pg/text@1']['output'];
     units_per_box: CodecTypes['pg/int4@1']['output'];
-    medicine: public_medicine;
-    readonly [RelationKeys]?: 'medicine';
+    inventory: public_inventory;
+    readonly [RelationKeys]?: 'inventory';
   };
   export type public_underlying_condition = {
     condition_name: CodecTypes['pg/text@1']['output'];
@@ -1907,7 +1907,7 @@ type ContractBase = Omit<
                   readonly nullable: false;
                   readonly many: false;
                 };
-                readonly medicine_id: {
+                readonly inventory_id: {
                   readonly dataType: 'pg/uuid';
                   readonly codecId: 'pg/uuid@1';
                   readonly nullable: false;
@@ -1949,9 +1949,9 @@ type ContractBase = Omit<
               uniques: readonly [];
               indexes: readonly [
                 {
-                  readonly name: 'receiving_stock_medicine_id_idx_8f174ab8';
-                  readonly prefix: 'receiving_stock_medicine_id_idx';
-                  readonly columns: readonly ['medicine_id'];
+                  readonly name: 'receiving_stock_inventory_id_idx_d5937af2';
+                  readonly prefix: 'receiving_stock_inventory_id_idx';
+                  readonly columns: readonly ['inventory_id'];
                   readonly unique: false;
                 },
               ];
@@ -1960,12 +1960,12 @@ type ContractBase = Omit<
                   readonly source: {
                     readonly namespaceId: 'public' & NamespaceId;
                     readonly tableName: 'receiving_stock';
-                    readonly columns: readonly ['medicine_id'];
+                    readonly columns: readonly ['inventory_id'];
                   };
                   readonly target: {
                     readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'medicine';
-                    readonly columns: readonly ['medicine_id'];
+                    readonly tableName: 'inventory';
+                    readonly columns: readonly ['inventory_id'];
                   };
                 },
               ];
@@ -2597,6 +2597,17 @@ type ContractBase = Omit<
                   readonly targetFields: readonly ['category_id'];
                 };
               };
+              readonly receiving_stock: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'receiving_stock';
+                };
+                readonly cardinality: '1:N';
+                readonly on: {
+                  readonly localFields: readonly ['inventory_id'];
+                  readonly targetFields: readonly ['inventory_id'];
+                };
+              };
             };
             readonly storage: {
               readonly table: 'inventory';
@@ -2790,17 +2801,6 @@ type ContractBase = Omit<
                 readonly on: {
                   readonly localFields: readonly ['category_id'];
                   readonly targetFields: readonly ['category_id'];
-                };
-              };
-              readonly receiving_stock: {
-                readonly to: {
-                  readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'receiving_stock';
-                };
-                readonly cardinality: '1:N';
-                readonly on: {
-                  readonly localFields: readonly ['medicine_id'];
-                  readonly targetFields: readonly ['medicine_id'];
                 };
               };
             };
@@ -3001,7 +3001,7 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
               };
-              readonly medicine_id: {
+              readonly inventory_id: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/uuid@1' };
               };
@@ -3030,16 +3030,16 @@ type ContractBase = Omit<
               };
             };
             readonly relations: {
-              readonly medicine: {
+              readonly inventory: {
                 readonly to: {
                   readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'medicine';
+                  readonly model: 'inventory';
                 };
                 readonly cardinality: 'N:1';
                 readonly nullable: false;
                 readonly on: {
-                  readonly localFields: readonly ['medicine_id'];
-                  readonly targetFields: readonly ['medicine_id'];
+                  readonly localFields: readonly ['inventory_id'];
+                  readonly targetFields: readonly ['inventory_id'];
                 };
               };
             };
@@ -3048,7 +3048,7 @@ type ContractBase = Omit<
               readonly namespaceId: 'public';
               readonly fields: {
                 readonly boxes_received: { readonly column: 'boxes_received' };
-                readonly medicine_id: { readonly column: 'medicine_id' };
+                readonly inventory_id: { readonly column: 'inventory_id' };
                 readonly received_at: { readonly column: 'received_at' };
                 readonly received_by: { readonly column: 'received_by' };
                 readonly receiving_id: { readonly column: 'receiving_id' };

@@ -13,13 +13,15 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@js-temporal/polyfill": "^0.5.1",
     "@prisma/orm-postgres": "^8.0.0-rc.17",
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "dotenv": "^18.0.6",
     "express": "^5.2.1",
-    "jsonwebtoken": "^9.0.3"
+    "jsonwebtoken": "^9.0.3",
+    "temporal-polyfill": "^1.0.6"
   },
   "devDependencies": {
     "@prisma/cli-engine": "^0.7.0",
