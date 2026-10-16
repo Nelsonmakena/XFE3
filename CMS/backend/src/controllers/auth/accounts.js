@@ -41,3 +41,12 @@ export const removeAccountRole = async (req, res) => {
   }
 };
 //general account creation
+export const newEmployee = async (req, res) => {
+  try {
+  } catch (error) {
+    console.log(error.message);
+    res
+      .status(400)
+      .json({ success: false, message: " error employee cannot be created" });
+  }
+};

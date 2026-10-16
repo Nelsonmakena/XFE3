@@ -30,19 +30,56 @@ export const findPatient = async (req, res) => {
 };
 
 export const newPatient = async (req, res) => {
-  const { first_name, middle_name, last_name, dob, address } = req.body;
+  const {
+    first_name,
+    middle_name,
+    last_name,
+    dob,
+    address,
+    encounter_type,
+    complaints,
+  } = req.body;
   const date_of_birth = `${req.body.dob}T00:00:00Z`;
   try {
-    const patient = await db.orm.public.patient.create({
-      first_name: first_name,
-      middle_name: middle_name,
-      last_name: last_name,
-      date_of_birth: Temporal.Instant.from(date_of_birth),
-      address: address,
+    const results = await db.transaction(async (tx) => {
+      const patient = await tx.orm.public.patient.create({
+        first_name: first_name,
+        middle_name: middle_name,
+        last_name: last_name,
+        date_of_birth: Temporal.Instant.from(date_of_birth),
+        address: address,
+      });
+      const newEncounter = await tx.orm.public.encounter.create({
+        patient_id: patient.patient_id,
+        encounter_type: encounter_type,
+        complaints: complaints,
+      });
+    });
+
+    res
+      .status(200)
+      .json({ success: true, message: "patient data added", data: results });
+  } catch (error) {
+    console.log(error.message);
+    res
+      .status(400)
+      .json({ success: false, message: "patient data cannot be added " });
+  }
+};
+
+//new patient encounter
+
+export const newPatientEncounter = async (req, res) => {
+  const { patient_id, encounter_type, complaints } = req.body;
+  try {
+    const response = await db.orm.public.encounter.create({
+      patient_id: patient_id,
+      encounter_type: encounter_type,
+      complaints: complaints,
     });
     res
       .status(200)
-      .json({ success: true, message: "patient data added", data: patient });
+      .json({ success: true, message: "encounter recorded", data: response });
   } catch (error) {
     console.log(error.message);
     res

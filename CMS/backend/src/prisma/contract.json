@@ -108,6 +108,13 @@
                   "kind": "scalar"
                 }
               },
+              "email": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
               "password_hash": {
                 "nullable": false,
                 "type": {
@@ -144,6 +151,9 @@
                 },
                 "created_at": {
                   "column": "created_at"
+                },
+                "email": {
+                  "column": "email"
                 },
                 "password_hash": {
                   "column": "password_hash"
@@ -527,21 +537,21 @@
                 }
               },
               "first_name": {
-                "nullable": false,
+                "nullable": true,
                 "type": {
                   "codecId": "pg/text@1",
                   "kind": "scalar"
                 }
               },
               "last_name": {
-                "nullable": false,
+                "nullable": true,
                 "type": {
                   "codecId": "pg/text@1",
                   "kind": "scalar"
                 }
               },
               "middle_name": {
-                "nullable": false,
+                "nullable": true,
                 "type": {
                   "codecId": "pg/text@1",
                   "kind": "scalar"
@@ -1642,6 +1652,11 @@
                   },
                   "nullable": false
                 },
+                "email": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
                 "password_hash": {
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
@@ -2030,17 +2045,17 @@
                 "first_name": {
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
-                  "nullable": false
+                  "nullable": true
                 },
                 "last_name": {
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
-                  "nullable": false
+                  "nullable": true
                 },
                 "middle_name": {
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
-                  "nullable": false
+                  "nullable": true
                 }
               },
               "foreignKeys": [
@@ -2904,7 +2919,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "d76c87339121c309b6d087fc86594e40f010068bbea2a0d3e99072efc132a31b"
+    "storageHash": "26f13ab92138fad14eb76fe52c45a31fa0d401982705137e4cdf321f5b5b9098"
   },
   "execution": {
     "executionHash": "aac86a2338bdad001c14c6ae4afca0de19e30ed64097151d6d62143e3ab3ae6f",

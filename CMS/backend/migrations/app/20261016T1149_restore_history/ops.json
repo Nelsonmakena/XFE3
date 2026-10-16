@@ -1,0 +1,2294 @@
+[
+  {
+    "id": "dropIndex.account.account_account_role_id_idx_e5327e38",
+    "label": "Drop index \"account_account_role_id_idx_e5327e38\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "account_account_role_id_idx_e5327e38",
+        "table": "account"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"account_account_role_id_idx_e5327e38\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"account_account_role_id_idx_e5327e38\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop index \"account_account_role_id_idx_e5327e38\"",
+        "sql": "DROP INDEX \"public\".\"account_account_role_id_idx_e5327e38\"",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"account_account_role_id_idx_e5327e38\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"account_account_role_id_idx_e5327e38\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.category",
+    "label": "Create table \"category\"",
+    "summary": "Creates table \"category\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "category"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"category\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"category\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"category\"",
+        "sql": "CREATE TABLE \"public\".\"category\" (\n  \"category_id\" uuid NOT NULL,\n  \"category_name\" text NOT NULL,\n  PRIMARY KEY (\"category_id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"category\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"category\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.clinical_assessment",
+    "label": "Create table \"clinical_assessment\"",
+    "summary": "Creates table \"clinical_assessment\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "clinical_assessment"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"clinical_assessment\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"clinical_assessment\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"clinical_assessment\"",
+        "sql": "CREATE TABLE \"public\".\"clinical_assessment\" (\n  \"assessed_by\" uuid NOT NULL,\n  \"assessment\" text NOT NULL,\n  \"assessment_id\" uuid NOT NULL,\n  \"encounter_id\" uuid NOT NULL,\n  PRIMARY KEY (\"assessment_id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"clinical_assessment\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"clinical_assessment\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.differential_diagnosis",
+    "label": "Create table \"differential_diagnosis\"",
+    "summary": "Creates table \"differential_diagnosis\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "differential_diagnosis"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"differential_diagnosis\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"differential_diagnosis\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"differential_diagnosis\"",
+        "sql": "CREATE TABLE \"public\".\"differential_diagnosis\" (\n  \"description\" text NOT NULL,\n  \"differential_id\" uuid NOT NULL,\n  \"encounter_id\" uuid NOT NULL,\n  \"notes\" text NOT NULL,\n  PRIMARY KEY (\"differential_id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"differential_diagnosis\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"differential_diagnosis\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.dispensing",
+    "label": "Create table \"dispensing\"",
+    "summary": "Creates table \"dispensing\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "dispensing"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"dispensing\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"dispensing\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"dispensing\"",
+        "sql": "CREATE TABLE \"public\".\"dispensing\" (\n  \"dispensed_at\" timestamptz DEFAULT (now()) NOT NULL,\n  \"dispensed_by\" uuid NOT NULL,\n  \"dispensing_id\" uuid NOT NULL,\n  \"medicine_id\" uuid NOT NULL,\n  \"prescription_item_id\" uuid NOT NULL,\n  \"quantity_dispensed\" int4 NOT NULL,\n  PRIMARY KEY (\"dispensing_id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"dispensing\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"dispensing\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.employee",
+    "label": "Create table \"employee\"",
+    "summary": "Creates table \"employee\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "employee"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"employee\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"employee\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"employee\"",
+        "sql": "CREATE TABLE \"public\".\"employee\" (\n  \"account_id\" text NOT NULL,\n  \"added_at\" timestamptz DEFAULT (now()) NOT NULL,\n  \"employee_id\" uuid NOT NULL,\n  \"first_name\" text NOT NULL,\n  \"last_name\" text NOT NULL,\n  \"middle_name\" text NOT NULL,\n  PRIMARY KEY (\"employee_id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"employee\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"employee\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.encounter",
+    "label": "Create table \"encounter\"",
+    "summary": "Creates table \"encounter\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "encounter"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"encounter\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"encounter\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"encounter\"",
+        "sql": "CREATE TABLE \"public\".\"encounter\" (\n  \"check_in_at\" timestamptz DEFAULT (now()) NOT NULL,\n  \"complaints\" text NOT NULL,\n  \"created_by\" uuid NOT NULL,\n  \"encounter_id\" uuid NOT NULL,\n  \"encounter_type\" text NOT NULL,\n  \"patient_id\" uuid NOT NULL,\n  PRIMARY KEY (\"encounter_id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"encounter\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"encounter\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.final_diagnosis",
+    "label": "Create table \"final_diagnosis\"",
+    "summary": "Creates table \"final_diagnosis\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "final_diagnosis"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"final_diagnosis\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"final_diagnosis\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"final_diagnosis\"",
+        "sql": "CREATE TABLE \"public\".\"final_diagnosis\" (\n  \"diagnosis\" text NOT NULL,\n  \"encounter_id\" uuid NOT NULL,\n  \"final_diagnosis_id\" uuid NOT NULL,\n  \"notes\" text NOT NULL,\n  PRIMARY KEY (\"final_diagnosis_id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"final_diagnosis\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"final_diagnosis\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.inventory",
+    "label": "Create table \"inventory\"",
+    "summary": "Creates table \"inventory\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "inventory"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"inventory\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"inventory\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"inventory\"",
+        "sql": "CREATE TABLE \"public\".\"inventory\" (\n  \"category_id\" uuid NOT NULL,\n  \"created_at\" timestamptz DEFAULT (now()) NOT NULL,\n  \"inventory_id\" uuid NOT NULL,\n  PRIMARY KEY (\"inventory_id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"inventory\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"inventory\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.lab_request",
+    "label": "Create table \"lab_request\"",
+    "summary": "Creates table \"lab_request\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "lab_request"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"lab_request\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"lab_request\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"lab_request\"",
+        "sql": "CREATE TABLE \"public\".\"lab_request\" (\n  \"encounter_id\" uuid NOT NULL,\n  \"lab_request_id\" uuid NOT NULL,\n  \"laboratory_note\" text NOT NULL,\n  \"status\" text NOT NULL,\n  \"time_requested\" timestamptz DEFAULT (now()) NOT NULL,\n  PRIMARY KEY (\"lab_request_id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"lab_request\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"lab_request\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.lab_test",
+    "label": "Create table \"lab_test\"",
+    "summary": "Creates table \"lab_test\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "lab_test"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"lab_test\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"lab_test\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"lab_test\"",
+        "sql": "CREATE TABLE \"public\".\"lab_test\" (\n  \"lab_request_id\" uuid NOT NULL,\n  \"lab_test_id\" uuid NOT NULL,\n  \"status\" text NOT NULL,\n  \"test_name\" text NOT NULL,\n  PRIMARY KEY (\"lab_test_id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"lab_test\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"lab_test\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.lab_test_results",
+    "label": "Create table \"lab_test_results\"",
+    "summary": "Creates table \"lab_test_results\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "lab_test_results"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"lab_test_results\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"lab_test_results\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"lab_test_results\"",
+        "sql": "CREATE TABLE \"public\".\"lab_test_results\" (\n  \"lab_test_id\" uuid NOT NULL,\n  \"lab_test_results\" uuid NOT NULL,\n  \"performed_at\" timestamptz NOT NULL,\n  \"performed_by\" uuid NOT NULL,\n  \"results\" text NOT NULL,\n  PRIMARY KEY (\"lab_test_results\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"lab_test_results\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"lab_test_results\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.medicine",
+    "label": "Create table \"medicine\"",
+    "summary": "Creates table \"medicine\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "medicine"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"medicine\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"medicine\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"medicine\"",
+        "sql": "CREATE TABLE \"public\".\"medicine\" (\n  \"base_unit\" int4 NOT NULL,\n  \"category_id\" uuid NOT NULL,\n  \"form\" text NOT NULL,\n  \"medicine_id\" uuid NOT NULL,\n  \"medicine_name\" text NOT NULL,\n  PRIMARY KEY (\"medicine_id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"medicine\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"medicine\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.patient",
+    "label": "Create table \"patient\"",
+    "summary": "Creates table \"patient\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "patient"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"patient\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"patient\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"patient\"",
+        "sql": "CREATE TABLE \"public\".\"patient\" (\n  \"added_at\" timestamptz DEFAULT (now()) NOT NULL,\n  \"address\" text NOT NULL,\n  \"date_of_birth\" timestamptz NOT NULL,\n  \"first_name\" text NOT NULL,\n  \"last_name\" text NOT NULL,\n  \"middle_name\" text NOT NULL,\n  \"patient_id\" uuid NOT NULL,\n  PRIMARY KEY (\"patient_id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"patient\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"patient\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.prescription",
+    "label": "Create table \"prescription\"",
+    "summary": "Creates table \"prescription\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "prescription"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"prescription\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"prescription\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"prescription\"",
+        "sql": "CREATE TABLE \"public\".\"prescription\" (\n  \"final_diagnosis_id\" uuid NOT NULL,\n  \"prescription_id\" uuid NOT NULL,\n  PRIMARY KEY (\"prescription_id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"prescription\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"prescription\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.prescription_item",
+    "label": "Create table \"prescription_item\"",
+    "summary": "Creates table \"prescription_item\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "prescription_item"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"prescription_item\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"prescription_item\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"prescription_item\"",
+        "sql": "CREATE TABLE \"public\".\"prescription_item\" (\n  \"dosage\" int4 NOT NULL,\n  \"duration\" int4 NOT NULL,\n  \"frequency\" int4 NOT NULL,\n  \"instructions\" text NOT NULL,\n  \"medicine_name\" text NOT NULL,\n  \"prescription_id\" uuid NOT NULL,\n  \"prescription_item_id\" uuid NOT NULL,\n  PRIMARY KEY (\"prescription_item_id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"prescription_item\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"prescription_item\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.receiving_stock",
+    "label": "Create table \"receiving_stock\"",
+    "summary": "Creates table \"receiving_stock\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "receiving_stock"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"receiving_stock\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"receiving_stock\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"receiving_stock\"",
+        "sql": "CREATE TABLE \"public\".\"receiving_stock\" (\n  \"boxes_received\" int4 NOT NULL,\n  \"inventory_id\" uuid NOT NULL,\n  \"received_at\" timestamptz DEFAULT (now()) NOT NULL,\n  \"received_by\" uuid NOT NULL,\n  \"receiving_id\" uuid NOT NULL,\n  \"supplier_name\" text NOT NULL,\n  \"units_per_box\" int4 NOT NULL,\n  PRIMARY KEY (\"receiving_id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"receiving_stock\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"receiving_stock\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.underlying_condition",
+    "label": "Create table \"underlying_condition\"",
+    "summary": "Creates table \"underlying_condition\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "underlying_condition"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"underlying_condition\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"underlying_condition\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"underlying_condition\"",
+        "sql": "CREATE TABLE \"public\".\"underlying_condition\" (\n  \"condition_name\" text NOT NULL,\n  \"date_added\" timestamptz DEFAULT (now()) NOT NULL,\n  \"diagnosed_at\" timestamptz NOT NULL,\n  \"notes\" text NOT NULL,\n  \"patient_id\" uuid NOT NULL,\n  \"underlying_condition\" uuid NOT NULL,\n  PRIMARY KEY (\"underlying_condition\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"underlying_condition\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"underlying_condition\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.account.account_account_role_id_key",
+    "label": "Add unique constraint on \"account\" (account_role_id)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "account_account_role_id_key",
+        "table": "account"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"account_account_role_id_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "account_account_role_id_key",
+          "public",
+          "\"public\".\"account\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"account_account_role_id_key\"",
+        "sql": "ALTER TABLE \"public\".\"account\" ADD CONSTRAINT \"account_account_role_id_key\" UNIQUE (\"account_role_id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"account_account_role_id_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "account_account_role_id_key",
+          "public",
+          "\"public\".\"account\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.account_role.account_role_role_name_key",
+    "label": "Add unique constraint on \"account_role\" (role_name)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "account_role_role_name_key",
+        "table": "account_role"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"account_role_role_name_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "account_role_role_name_key",
+          "public",
+          "\"public\".\"account_role\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"account_role_role_name_key\"",
+        "sql": "ALTER TABLE \"public\".\"account_role\" ADD CONSTRAINT \"account_role_role_name_key\" UNIQUE (\"role_name\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"account_role_role_name_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "account_role_role_name_key",
+          "public",
+          "\"public\".\"account_role\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.final_diagnosis.final_diagnosis_encounter_id_key",
+    "label": "Add unique constraint on \"final_diagnosis\" (encounter_id)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "final_diagnosis_encounter_id_key",
+        "table": "final_diagnosis"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"final_diagnosis_encounter_id_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "final_diagnosis_encounter_id_key",
+          "public",
+          "\"public\".\"final_diagnosis\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"final_diagnosis_encounter_id_key\"",
+        "sql": "ALTER TABLE \"public\".\"final_diagnosis\" ADD CONSTRAINT \"final_diagnosis_encounter_id_key\" UNIQUE (\"encounter_id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"final_diagnosis_encounter_id_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "final_diagnosis_encounter_id_key",
+          "public",
+          "\"public\".\"final_diagnosis\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.inventory.inventory_category_id_key",
+    "label": "Add unique constraint on \"inventory\" (category_id)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "inventory_category_id_key",
+        "table": "inventory"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"inventory_category_id_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "inventory_category_id_key",
+          "public",
+          "\"public\".\"inventory\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"inventory_category_id_key\"",
+        "sql": "ALTER TABLE \"public\".\"inventory\" ADD CONSTRAINT \"inventory_category_id_key\" UNIQUE (\"category_id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"inventory_category_id_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "inventory_category_id_key",
+          "public",
+          "\"public\".\"inventory\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.clinical_assessment.clinical_assessment_assessed_by_idx_dddbe837",
+    "label": "Create index \"clinical_assessment_assessed_by_idx_dddbe837\" on \"clinical_assessment\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "clinical_assessment_assessed_by_idx_dddbe837",
+        "table": "clinical_assessment"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"clinical_assessment_assessed_by_idx_dddbe837\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"clinical_assessment_assessed_by_idx_dddbe837\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"clinical_assessment_assessed_by_idx_dddbe837\"",
+        "sql": "CREATE INDEX \"clinical_assessment_assessed_by_idx_dddbe837\" ON \"public\".\"clinical_assessment\" (\"assessed_by\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"clinical_assessment_assessed_by_idx_dddbe837\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"clinical_assessment_assessed_by_idx_dddbe837\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.clinical_assessment.clinical_assessment_encounter_id_idx_3c340cf5",
+    "label": "Create index \"clinical_assessment_encounter_id_idx_3c340cf5\" on \"clinical_assessment\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "clinical_assessment_encounter_id_idx_3c340cf5",
+        "table": "clinical_assessment"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"clinical_assessment_encounter_id_idx_3c340cf5\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"clinical_assessment_encounter_id_idx_3c340cf5\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"clinical_assessment_encounter_id_idx_3c340cf5\"",
+        "sql": "CREATE INDEX \"clinical_assessment_encounter_id_idx_3c340cf5\" ON \"public\".\"clinical_assessment\" (\"encounter_id\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"clinical_assessment_encounter_id_idx_3c340cf5\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"clinical_assessment_encounter_id_idx_3c340cf5\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.differential_diagnosis.differential_diagnosis_encounter_id_idx_3c340cf5",
+    "label": "Create index \"differential_diagnosis_encounter_id_idx_3c340cf5\" on \"differential_diagnosis\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "differential_diagnosis_encounter_id_idx_3c340cf5",
+        "table": "differential_diagnosis"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"differential_diagnosis_encounter_id_idx_3c340cf5\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"differential_diagnosis_encounter_id_idx_3c340cf5\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"differential_diagnosis_encounter_id_idx_3c340cf5\"",
+        "sql": "CREATE INDEX \"differential_diagnosis_encounter_id_idx_3c340cf5\" ON \"public\".\"differential_diagnosis\" (\"encounter_id\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"differential_diagnosis_encounter_id_idx_3c340cf5\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"differential_diagnosis_encounter_id_idx_3c340cf5\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.dispensing.dispensing_dispensed_by_idx_1f96d953",
+    "label": "Create index \"dispensing_dispensed_by_idx_1f96d953\" on \"dispensing\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "dispensing_dispensed_by_idx_1f96d953",
+        "table": "dispensing"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"dispensing_dispensed_by_idx_1f96d953\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"dispensing_dispensed_by_idx_1f96d953\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"dispensing_dispensed_by_idx_1f96d953\"",
+        "sql": "CREATE INDEX \"dispensing_dispensed_by_idx_1f96d953\" ON \"public\".\"dispensing\" (\"dispensed_by\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"dispensing_dispensed_by_idx_1f96d953\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"dispensing_dispensed_by_idx_1f96d953\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.dispensing.dispensing_medicine_id_idx_8f174ab8",
+    "label": "Create index \"dispensing_medicine_id_idx_8f174ab8\" on \"dispensing\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "dispensing_medicine_id_idx_8f174ab8",
+        "table": "dispensing"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"dispensing_medicine_id_idx_8f174ab8\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"dispensing_medicine_id_idx_8f174ab8\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"dispensing_medicine_id_idx_8f174ab8\"",
+        "sql": "CREATE INDEX \"dispensing_medicine_id_idx_8f174ab8\" ON \"public\".\"dispensing\" (\"medicine_id\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"dispensing_medicine_id_idx_8f174ab8\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"dispensing_medicine_id_idx_8f174ab8\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.employee.employee_account_id_idx_3b48271c",
+    "label": "Create index \"employee_account_id_idx_3b48271c\" on \"employee\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "employee_account_id_idx_3b48271c",
+        "table": "employee"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"employee_account_id_idx_3b48271c\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"employee_account_id_idx_3b48271c\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"employee_account_id_idx_3b48271c\"",
+        "sql": "CREATE INDEX \"employee_account_id_idx_3b48271c\" ON \"public\".\"employee\" (\"account_id\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"employee_account_id_idx_3b48271c\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"employee_account_id_idx_3b48271c\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.encounter.encounter_created_by_idx_e13bb8bf",
+    "label": "Create index \"encounter_created_by_idx_e13bb8bf\" on \"encounter\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "encounter_created_by_idx_e13bb8bf",
+        "table": "encounter"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"encounter_created_by_idx_e13bb8bf\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"encounter_created_by_idx_e13bb8bf\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"encounter_created_by_idx_e13bb8bf\"",
+        "sql": "CREATE INDEX \"encounter_created_by_idx_e13bb8bf\" ON \"public\".\"encounter\" (\"created_by\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"encounter_created_by_idx_e13bb8bf\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"encounter_created_by_idx_e13bb8bf\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.encounter.encounter_patient_id_idx_2f641dda",
+    "label": "Create index \"encounter_patient_id_idx_2f641dda\" on \"encounter\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "encounter_patient_id_idx_2f641dda",
+        "table": "encounter"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"encounter_patient_id_idx_2f641dda\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"encounter_patient_id_idx_2f641dda\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"encounter_patient_id_idx_2f641dda\"",
+        "sql": "CREATE INDEX \"encounter_patient_id_idx_2f641dda\" ON \"public\".\"encounter\" (\"patient_id\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"encounter_patient_id_idx_2f641dda\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"encounter_patient_id_idx_2f641dda\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.lab_request.lab_request_encounter_id_idx_3c340cf5",
+    "label": "Create index \"lab_request_encounter_id_idx_3c340cf5\" on \"lab_request\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "lab_request_encounter_id_idx_3c340cf5",
+        "table": "lab_request"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"lab_request_encounter_id_idx_3c340cf5\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"lab_request_encounter_id_idx_3c340cf5\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"lab_request_encounter_id_idx_3c340cf5\"",
+        "sql": "CREATE INDEX \"lab_request_encounter_id_idx_3c340cf5\" ON \"public\".\"lab_request\" (\"encounter_id\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"lab_request_encounter_id_idx_3c340cf5\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"lab_request_encounter_id_idx_3c340cf5\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.lab_test.lab_test_lab_request_id_idx_aca1b976",
+    "label": "Create index \"lab_test_lab_request_id_idx_aca1b976\" on \"lab_test\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "lab_test_lab_request_id_idx_aca1b976",
+        "table": "lab_test"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"lab_test_lab_request_id_idx_aca1b976\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"lab_test_lab_request_id_idx_aca1b976\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"lab_test_lab_request_id_idx_aca1b976\"",
+        "sql": "CREATE INDEX \"lab_test_lab_request_id_idx_aca1b976\" ON \"public\".\"lab_test\" (\"lab_request_id\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"lab_test_lab_request_id_idx_aca1b976\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"lab_test_lab_request_id_idx_aca1b976\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.lab_test_results.lab_test_results_lab_test_id_idx_59478788",
+    "label": "Create index \"lab_test_results_lab_test_id_idx_59478788\" on \"lab_test_results\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "lab_test_results_lab_test_id_idx_59478788",
+        "table": "lab_test_results"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"lab_test_results_lab_test_id_idx_59478788\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"lab_test_results_lab_test_id_idx_59478788\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"lab_test_results_lab_test_id_idx_59478788\"",
+        "sql": "CREATE INDEX \"lab_test_results_lab_test_id_idx_59478788\" ON \"public\".\"lab_test_results\" (\"lab_test_id\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"lab_test_results_lab_test_id_idx_59478788\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"lab_test_results_lab_test_id_idx_59478788\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.medicine.medicine_category_id_idx_da7213d4",
+    "label": "Create index \"medicine_category_id_idx_da7213d4\" on \"medicine\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "medicine_category_id_idx_da7213d4",
+        "table": "medicine"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"medicine_category_id_idx_da7213d4\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"medicine_category_id_idx_da7213d4\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"medicine_category_id_idx_da7213d4\"",
+        "sql": "CREATE INDEX \"medicine_category_id_idx_da7213d4\" ON \"public\".\"medicine\" (\"category_id\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"medicine_category_id_idx_da7213d4\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"medicine_category_id_idx_da7213d4\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.prescription.prescription_final_diagnosis_id_idx_c1394b3c",
+    "label": "Create index \"prescription_final_diagnosis_id_idx_c1394b3c\" on \"prescription\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "prescription_final_diagnosis_id_idx_c1394b3c",
+        "table": "prescription"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"prescription_final_diagnosis_id_idx_c1394b3c\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"prescription_final_diagnosis_id_idx_c1394b3c\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"prescription_final_diagnosis_id_idx_c1394b3c\"",
+        "sql": "CREATE INDEX \"prescription_final_diagnosis_id_idx_c1394b3c\" ON \"public\".\"prescription\" (\"final_diagnosis_id\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"prescription_final_diagnosis_id_idx_c1394b3c\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"prescription_final_diagnosis_id_idx_c1394b3c\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.prescription_item.prescription_item_prescription_id_idx_de1745f5",
+    "label": "Create index \"prescription_item_prescription_id_idx_de1745f5\" on \"prescription_item\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "prescription_item_prescription_id_idx_de1745f5",
+        "table": "prescription_item"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"prescription_item_prescription_id_idx_de1745f5\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"prescription_item_prescription_id_idx_de1745f5\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"prescription_item_prescription_id_idx_de1745f5\"",
+        "sql": "CREATE INDEX \"prescription_item_prescription_id_idx_de1745f5\" ON \"public\".\"prescription_item\" (\"prescription_id\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"prescription_item_prescription_id_idx_de1745f5\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"prescription_item_prescription_id_idx_de1745f5\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.receiving_stock.receiving_stock_inventory_id_idx_d5937af2",
+    "label": "Create index \"receiving_stock_inventory_id_idx_d5937af2\" on \"receiving_stock\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "receiving_stock_inventory_id_idx_d5937af2",
+        "table": "receiving_stock"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"receiving_stock_inventory_id_idx_d5937af2\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"receiving_stock_inventory_id_idx_d5937af2\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"receiving_stock_inventory_id_idx_d5937af2\"",
+        "sql": "CREATE INDEX \"receiving_stock_inventory_id_idx_d5937af2\" ON \"public\".\"receiving_stock\" (\"inventory_id\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"receiving_stock_inventory_id_idx_d5937af2\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"receiving_stock_inventory_id_idx_d5937af2\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.underlying_condition.underlying_condition_patient_id_idx_2f641dda",
+    "label": "Create index \"underlying_condition_patient_id_idx_2f641dda\" on \"underlying_condition\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "underlying_condition_patient_id_idx_2f641dda",
+        "table": "underlying_condition"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"underlying_condition_patient_id_idx_2f641dda\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"underlying_condition_patient_id_idx_2f641dda\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"underlying_condition_patient_id_idx_2f641dda\"",
+        "sql": "CREATE INDEX \"underlying_condition_patient_id_idx_2f641dda\" ON \"public\".\"underlying_condition\" (\"patient_id\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"underlying_condition_patient_id_idx_2f641dda\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"underlying_condition_patient_id_idx_2f641dda\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.category.category_category_id_fkey",
+    "label": "Add foreign key \"category_category_id_fkey\" on \"category\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "category_category_id_fkey",
+        "table": "category"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"category_category_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "category_category_id_fkey",
+          "public",
+          "\"public\".\"category\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"category_category_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"category\"\nADD CONSTRAINT \"category_category_id_fkey\"\nFOREIGN KEY (\"category_id\")\nREFERENCES \"public\".\"inventory\" (\"category_id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"category_category_id_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "category_category_id_fkey",
+          "public",
+          "\"public\".\"category\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.clinical_assessment.clinical_assessment_encounter_id_fkey",
+    "label": "Add foreign key \"clinical_assessment_encounter_id_fkey\" on \"clinical_assessment\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "clinical_assessment_encounter_id_fkey",
+        "table": "clinical_assessment"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"clinical_assessment_encounter_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "clinical_assessment_encounter_id_fkey",
+          "public",
+          "\"public\".\"clinical_assessment\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"clinical_assessment_encounter_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"clinical_assessment\"\nADD CONSTRAINT \"clinical_assessment_encounter_id_fkey\"\nFOREIGN KEY (\"encounter_id\")\nREFERENCES \"public\".\"encounter\" (\"encounter_id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"clinical_assessment_encounter_id_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "clinical_assessment_encounter_id_fkey",
+          "public",
+          "\"public\".\"clinical_assessment\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.clinical_assessment.clinical_assessment_assessed_by_fkey",
+    "label": "Add foreign key \"clinical_assessment_assessed_by_fkey\" on \"clinical_assessment\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "clinical_assessment_assessed_by_fkey",
+        "table": "clinical_assessment"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"clinical_assessment_assessed_by_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "clinical_assessment_assessed_by_fkey",
+          "public",
+          "\"public\".\"clinical_assessment\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"clinical_assessment_assessed_by_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"clinical_assessment\"\nADD CONSTRAINT \"clinical_assessment_assessed_by_fkey\"\nFOREIGN KEY (\"assessed_by\")\nREFERENCES \"public\".\"employee\" (\"employee_id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"clinical_assessment_assessed_by_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "clinical_assessment_assessed_by_fkey",
+          "public",
+          "\"public\".\"clinical_assessment\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.differential_diagnosis.differential_diagnosis_encounter_id_fkey",
+    "label": "Add foreign key \"differential_diagnosis_encounter_id_fkey\" on \"differential_diagnosis\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "differential_diagnosis_encounter_id_fkey",
+        "table": "differential_diagnosis"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"differential_diagnosis_encounter_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "differential_diagnosis_encounter_id_fkey",
+          "public",
+          "\"public\".\"differential_diagnosis\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"differential_diagnosis_encounter_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"differential_diagnosis\"\nADD CONSTRAINT \"differential_diagnosis_encounter_id_fkey\"\nFOREIGN KEY (\"encounter_id\")\nREFERENCES \"public\".\"encounter\" (\"encounter_id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"differential_diagnosis_encounter_id_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "differential_diagnosis_encounter_id_fkey",
+          "public",
+          "\"public\".\"differential_diagnosis\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.dispensing.dispensing_medicine_id_fkey",
+    "label": "Add foreign key \"dispensing_medicine_id_fkey\" on \"dispensing\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "dispensing_medicine_id_fkey",
+        "table": "dispensing"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"dispensing_medicine_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "dispensing_medicine_id_fkey",
+          "public",
+          "\"public\".\"dispensing\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"dispensing_medicine_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"dispensing\"\nADD CONSTRAINT \"dispensing_medicine_id_fkey\"\nFOREIGN KEY (\"medicine_id\")\nREFERENCES \"public\".\"medicine\" (\"medicine_id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"dispensing_medicine_id_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "dispensing_medicine_id_fkey",
+          "public",
+          "\"public\".\"dispensing\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.dispensing.dispensing_dispensed_by_fkey",
+    "label": "Add foreign key \"dispensing_dispensed_by_fkey\" on \"dispensing\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "dispensing_dispensed_by_fkey",
+        "table": "dispensing"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"dispensing_dispensed_by_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "dispensing_dispensed_by_fkey",
+          "public",
+          "\"public\".\"dispensing\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"dispensing_dispensed_by_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"dispensing\"\nADD CONSTRAINT \"dispensing_dispensed_by_fkey\"\nFOREIGN KEY (\"dispensed_by\")\nREFERENCES \"public\".\"employee\" (\"employee_id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"dispensing_dispensed_by_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "dispensing_dispensed_by_fkey",
+          "public",
+          "\"public\".\"dispensing\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.employee.employee_account_id_fkey",
+    "label": "Add foreign key \"employee_account_id_fkey\" on \"employee\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "employee_account_id_fkey",
+        "table": "employee"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"employee_account_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "employee_account_id_fkey",
+          "public",
+          "\"public\".\"employee\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"employee_account_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"employee\"\nADD CONSTRAINT \"employee_account_id_fkey\"\nFOREIGN KEY (\"account_id\")\nREFERENCES \"public\".\"account\" (\"account_id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"employee_account_id_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "employee_account_id_fkey",
+          "public",
+          "\"public\".\"employee\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.encounter.encounter_patient_id_fkey",
+    "label": "Add foreign key \"encounter_patient_id_fkey\" on \"encounter\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "encounter_patient_id_fkey",
+        "table": "encounter"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"encounter_patient_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "encounter_patient_id_fkey",
+          "public",
+          "\"public\".\"encounter\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"encounter_patient_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"encounter\"\nADD CONSTRAINT \"encounter_patient_id_fkey\"\nFOREIGN KEY (\"patient_id\")\nREFERENCES \"public\".\"patient\" (\"patient_id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"encounter_patient_id_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "encounter_patient_id_fkey",
+          "public",
+          "\"public\".\"encounter\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.encounter.encounter_created_by_fkey",
+    "label": "Add foreign key \"encounter_created_by_fkey\" on \"encounter\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "encounter_created_by_fkey",
+        "table": "encounter"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"encounter_created_by_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "encounter_created_by_fkey",
+          "public",
+          "\"public\".\"encounter\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"encounter_created_by_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"encounter\"\nADD CONSTRAINT \"encounter_created_by_fkey\"\nFOREIGN KEY (\"created_by\")\nREFERENCES \"public\".\"employee\" (\"employee_id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"encounter_created_by_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "encounter_created_by_fkey",
+          "public",
+          "\"public\".\"encounter\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.final_diagnosis.final_diagnosis_encounter_id_fkey",
+    "label": "Add foreign key \"final_diagnosis_encounter_id_fkey\" on \"final_diagnosis\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "final_diagnosis_encounter_id_fkey",
+        "table": "final_diagnosis"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"final_diagnosis_encounter_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "final_diagnosis_encounter_id_fkey",
+          "public",
+          "\"public\".\"final_diagnosis\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"final_diagnosis_encounter_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"final_diagnosis\"\nADD CONSTRAINT \"final_diagnosis_encounter_id_fkey\"\nFOREIGN KEY (\"encounter_id\")\nREFERENCES \"public\".\"encounter\" (\"encounter_id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"final_diagnosis_encounter_id_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "final_diagnosis_encounter_id_fkey",
+          "public",
+          "\"public\".\"final_diagnosis\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.inventory.inventory_category_id_fkey",
+    "label": "Add foreign key \"inventory_category_id_fkey\" on \"inventory\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "inventory_category_id_fkey",
+        "table": "inventory"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"inventory_category_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "inventory_category_id_fkey",
+          "public",
+          "\"public\".\"inventory\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"inventory_category_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"inventory\"\nADD CONSTRAINT \"inventory_category_id_fkey\"\nFOREIGN KEY (\"category_id\")\nREFERENCES \"public\".\"category\" (\"category_id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"inventory_category_id_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "inventory_category_id_fkey",
+          "public",
+          "\"public\".\"inventory\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.lab_request.lab_request_encounter_id_fkey",
+    "label": "Add foreign key \"lab_request_encounter_id_fkey\" on \"lab_request\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "lab_request_encounter_id_fkey",
+        "table": "lab_request"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"lab_request_encounter_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "lab_request_encounter_id_fkey",
+          "public",
+          "\"public\".\"lab_request\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"lab_request_encounter_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"lab_request\"\nADD CONSTRAINT \"lab_request_encounter_id_fkey\"\nFOREIGN KEY (\"encounter_id\")\nREFERENCES \"public\".\"encounter\" (\"encounter_id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"lab_request_encounter_id_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "lab_request_encounter_id_fkey",
+          "public",
+          "\"public\".\"lab_request\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.lab_test.lab_test_lab_request_id_fkey",
+    "label": "Add foreign key \"lab_test_lab_request_id_fkey\" on \"lab_test\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "lab_test_lab_request_id_fkey",
+        "table": "lab_test"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"lab_test_lab_request_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "lab_test_lab_request_id_fkey",
+          "public",
+          "\"public\".\"lab_test\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"lab_test_lab_request_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"lab_test\"\nADD CONSTRAINT \"lab_test_lab_request_id_fkey\"\nFOREIGN KEY (\"lab_request_id\")\nREFERENCES \"public\".\"lab_request\" (\"lab_request_id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"lab_test_lab_request_id_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "lab_test_lab_request_id_fkey",
+          "public",
+          "\"public\".\"lab_test\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.lab_test_results.lab_test_results_lab_test_id_fkey",
+    "label": "Add foreign key \"lab_test_results_lab_test_id_fkey\" on \"lab_test_results\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "lab_test_results_lab_test_id_fkey",
+        "table": "lab_test_results"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"lab_test_results_lab_test_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "lab_test_results_lab_test_id_fkey",
+          "public",
+          "\"public\".\"lab_test_results\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"lab_test_results_lab_test_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"lab_test_results\"\nADD CONSTRAINT \"lab_test_results_lab_test_id_fkey\"\nFOREIGN KEY (\"lab_test_id\")\nREFERENCES \"public\".\"lab_test\" (\"lab_test_id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"lab_test_results_lab_test_id_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "lab_test_results_lab_test_id_fkey",
+          "public",
+          "\"public\".\"lab_test_results\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.medicine.medicine_category_id_fkey",
+    "label": "Add foreign key \"medicine_category_id_fkey\" on \"medicine\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "medicine_category_id_fkey",
+        "table": "medicine"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"medicine_category_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "medicine_category_id_fkey",
+          "public",
+          "\"public\".\"medicine\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"medicine_category_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"medicine\"\nADD CONSTRAINT \"medicine_category_id_fkey\"\nFOREIGN KEY (\"category_id\")\nREFERENCES \"public\".\"category\" (\"category_id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"medicine_category_id_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "medicine_category_id_fkey",
+          "public",
+          "\"public\".\"medicine\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.prescription.prescription_final_diagnosis_id_fkey",
+    "label": "Add foreign key \"prescription_final_diagnosis_id_fkey\" on \"prescription\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "prescription_final_diagnosis_id_fkey",
+        "table": "prescription"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"prescription_final_diagnosis_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "prescription_final_diagnosis_id_fkey",
+          "public",
+          "\"public\".\"prescription\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"prescription_final_diagnosis_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"prescription\"\nADD CONSTRAINT \"prescription_final_diagnosis_id_fkey\"\nFOREIGN KEY (\"final_diagnosis_id\")\nREFERENCES \"public\".\"final_diagnosis\" (\"final_diagnosis_id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"prescription_final_diagnosis_id_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "prescription_final_diagnosis_id_fkey",
+          "public",
+          "\"public\".\"prescription\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.prescription_item.prescription_item_prescription_id_fkey",
+    "label": "Add foreign key \"prescription_item_prescription_id_fkey\" on \"prescription_item\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "prescription_item_prescription_id_fkey",
+        "table": "prescription_item"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"prescription_item_prescription_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "prescription_item_prescription_id_fkey",
+          "public",
+          "\"public\".\"prescription_item\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"prescription_item_prescription_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"prescription_item\"\nADD CONSTRAINT \"prescription_item_prescription_id_fkey\"\nFOREIGN KEY (\"prescription_id\")\nREFERENCES \"public\".\"prescription\" (\"prescription_id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"prescription_item_prescription_id_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "prescription_item_prescription_id_fkey",
+          "public",
+          "\"public\".\"prescription_item\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.receiving_stock.receiving_stock_inventory_id_fkey",
+    "label": "Add foreign key \"receiving_stock_inventory_id_fkey\" on \"receiving_stock\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "receiving_stock_inventory_id_fkey",
+        "table": "receiving_stock"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"receiving_stock_inventory_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "receiving_stock_inventory_id_fkey",
+          "public",
+          "\"public\".\"receiving_stock\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"receiving_stock_inventory_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"receiving_stock\"\nADD CONSTRAINT \"receiving_stock_inventory_id_fkey\"\nFOREIGN KEY (\"inventory_id\")\nREFERENCES \"public\".\"inventory\" (\"inventory_id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"receiving_stock_inventory_id_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "receiving_stock_inventory_id_fkey",
+          "public",
+          "\"public\".\"receiving_stock\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.underlying_condition.underlying_condition_patient_id_fkey",
+    "label": "Add foreign key \"underlying_condition_patient_id_fkey\" on \"underlying_condition\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "underlying_condition_patient_id_fkey",
+        "table": "underlying_condition"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"underlying_condition_patient_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "underlying_condition_patient_id_fkey",
+          "public",
+          "\"public\".\"underlying_condition\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"underlying_condition_patient_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"underlying_condition\"\nADD CONSTRAINT \"underlying_condition_patient_id_fkey\"\nFOREIGN KEY (\"patient_id\")\nREFERENCES \"public\".\"patient\" (\"patient_id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"underlying_condition_patient_id_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "underlying_condition_patient_id_fkey",
+          "public",
+          "\"public\".\"underlying_condition\""
+        ]
+      }
+    ]
+  }
+]
