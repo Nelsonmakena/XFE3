@@ -50,3 +50,16 @@ export const newPatient = async (req, res) => {
       .json({ success: false, message: "patient data cannot be added " });
   }
 };
+
+//new patient encounter
+
+export const newPatientEncounter = async (req, res) => {
+  const { patient_id, encounter_type, complaints } = req.body;
+  try {
+  } catch (error) {
+    console.log(error.message);
+    res
+      .status(400)
+      .json({ success: false, message: "patient data cannot be added " });
+  }
+};

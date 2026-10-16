@@ -51,7 +51,7 @@ patient patient @relation(fields: [patient_id],references: [patient_id])
   patient_id Uuid
   encounter_type String
   check_in_at DateTime @default(now())
-  complaints String 
+  complaints String[]
   created_by Uuid 
   patient patient @relation(fields: [patient_id],references: [patient_id])
   employee employee @relation(fields: [created_by],references: [employee_id])

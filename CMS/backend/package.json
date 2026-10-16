@@ -14,7 +14,7 @@
   "type": "module",
   "dependencies": {
     "@js-temporal/polyfill": "^0.5.1",
-    "@prisma/orm-postgres": "^8.0.0-rc.17",
+    "@prisma/orm-postgres": "^8.0.0-rc.18",
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
@@ -27,6 +27,6 @@
     "@prisma/cli-engine": "^0.7.0",
     "@types/node": "^26.6.4",
     "nodemon": "^3.1.14",
-    "prisma": "^8.0.0-rc.22"
+    "prisma": "^8.0.0-rc.18"
   }
 }

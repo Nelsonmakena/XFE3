@@ -601,6 +601,9 @@
                 }
               },
               "complaints": {
+                "many": {
+                  "elementNullable": false
+                },
                 "nullable": false,
                 "type": {
                   "codecId": "pg/text@1",
@@ -2082,6 +2085,13 @@
               "uniques": []
             },
             "encounter": {
+              "checks": [
+                {
+                  "expression": "array_position(\"complaints\", NULL) IS NULL",
+                  "name": "encounter_complaints_elem_not_null_23b787f8",
+                  "prefix": "encounter_complaints_elem_not_null"
+                }
+              ],
               "columns": {
                 "check_in_at": {
                   "codecId": "pg/timestamptz-temporal@1",
@@ -2095,6 +2105,9 @@
                 "complaints": {
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
+                  "many": {
+                    "elementNullable": false
+                  },
                   "nullable": false
                 },
                 "created_by": {
@@ -2904,7 +2917,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "d76c87339121c309b6d087fc86594e40f010068bbea2a0d3e99072efc132a31b"
+    "storageHash": "1db57ad14b3a22fe411843f6a1cd5ba8ce819dc8de4dfc82fc6c36221c7de23c"
   },
   "execution": {
     "executionHash": "aac86a2338bdad001c14c6ae4afca0de19e30ed64097151d6d62143e3ab3ae6f",

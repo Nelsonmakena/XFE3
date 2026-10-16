@@ -18,7 +18,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'d76c87339121c309b6d087fc86594e40f010068bbea2a0d3e99072efc132a31b'>;
+  StorageHashBase<'1db57ad14b3a22fe411843f6a1cd5ba8ce819dc8de4dfc82fc6c36221c7de23c'>;
 export type ExecutionHash =
   ExecutionHashBase<'aac86a2338bdad001c14c6ae4afca0de19e30ed64097151d6d62143e3ab3ae6f'>;
 export type ProfileHash =
@@ -278,7 +278,7 @@ export type FieldOutputTypes = {
     };
     readonly encounter: {
       readonly check_in_at: CodecTypes['pg/timestamptz-temporal@1']['output'];
-      readonly complaints: CodecTypes['pg/text@1']['output'];
+      readonly complaints: ReadonlyArray<CodecTypes['pg/text@1']['output']>;
       readonly created_by: CodecTypes['pg/uuid@1']['output'];
       readonly encounter_id: CodecTypes['pg/uuid@1']['output'];
       readonly encounter_type: CodecTypes['pg/text@1']['output'];
@@ -409,7 +409,7 @@ export type FieldInputTypes = {
     };
     readonly encounter: {
       readonly check_in_at: CodecTypes['pg/timestamptz-temporal@1']['input'];
-      readonly complaints: CodecTypes['pg/text@1']['input'];
+      readonly complaints: ReadonlyArray<CodecTypes['pg/text@1']['input']>;
       readonly created_by: CodecTypes['pg/uuid@1']['input'];
       readonly encounter_id: CodecTypes['pg/uuid@1']['input'];
       readonly encounter_type: CodecTypes['pg/text@1']['input'];
@@ -540,7 +540,7 @@ export type StorageColumnTypes = {
     };
     readonly encounter: {
       readonly check_in_at: CodecTypes['pg/timestamptz-temporal@1']['output'];
-      readonly complaints: CodecTypes['pg/text@1']['output'];
+      readonly complaints: ReadonlyArray<CodecTypes['pg/text@1']['output']>;
       readonly created_by: CodecTypes['pg/uuid@1']['output'];
       readonly encounter_id: CodecTypes['pg/uuid@1']['output'];
       readonly encounter_type: CodecTypes['pg/text@1']['output'];
@@ -671,7 +671,7 @@ export type StorageColumnInputTypes = {
     };
     readonly encounter: {
       readonly check_in_at: CodecTypes['pg/timestamptz-temporal@1']['input'];
-      readonly complaints: CodecTypes['pg/text@1']['input'];
+      readonly complaints: ReadonlyArray<CodecTypes['pg/text@1']['input']>;
       readonly created_by: CodecTypes['pg/uuid@1']['input'];
       readonly encounter_id: CodecTypes['pg/uuid@1']['input'];
       readonly encounter_type: CodecTypes['pg/text@1']['input'];
@@ -818,7 +818,7 @@ export namespace Models {
   };
   export type public_encounter = {
     check_in_at: CodecTypes['pg/timestamptz-temporal@1']['output'];
-    complaints: CodecTypes['pg/text@1']['output'];
+    complaints: ReadonlyArray<CodecTypes['pg/text@1']['output']>;
     created_by: CodecTypes['pg/uuid@1']['output'];
     encounter_id: CodecTypes['pg/uuid@1']['output'];
     encounter_type: CodecTypes['pg/text@1']['output'];
@@ -1356,7 +1356,7 @@ type ContractBase = Omit<
                   readonly dataType: 'pg/text';
                   readonly codecId: 'pg/text@1';
                   readonly nullable: false;
-                  readonly many: false;
+                  readonly many: { readonly elementNullable: false };
                 };
                 readonly created_by: {
                   readonly dataType: 'pg/uuid';
@@ -2454,6 +2454,7 @@ type ContractBase = Omit<
               readonly complaints: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+                readonly many: { readonly elementNullable: false };
               };
               readonly created_by: {
                 readonly nullable: false;
