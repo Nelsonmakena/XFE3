@@ -18,9 +18,9 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'3b69f8f504662634f925a4a0b9fac99ec2d561f978723e753a68c67e80993eab'>;
+  StorageHashBase<'091ac711211e8f5290a1a6a07c55f2f514caa14dd19291831fd1553f28aec9a0'>;
 export type ExecutionHash =
-  ExecutionHashBase<'aac86a2338bdad001c14c6ae4afca0de19e30ed64097151d6d62143e3ab3ae6f'>;
+  ExecutionHashBase<'5ad40b91038a4adae1de18f05e245c174f9399543ec9a832d15ff671d51b884c'>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
 
@@ -245,6 +245,11 @@ export type FieldOutputTypes = {
       readonly account_role_id: CodecTypes['pg/text@1']['output'];
       readonly role_name: CodecTypes['pg/text@1']['output'];
     };
+    readonly admin: {
+      readonly id: CodecTypes['pg/uuid@1']['output'];
+      readonly password_hash: CodecTypes['pg/text@1']['output'];
+      readonly username: CodecTypes['pg/text@1']['output'];
+    };
     readonly category: {
       readonly category_id: CodecTypes['pg/uuid@1']['output'];
       readonly category_name: CodecTypes['pg/text@1']['output'];
@@ -376,6 +381,11 @@ export type FieldInputTypes = {
     readonly account_role: {
       readonly account_role_id: CodecTypes['pg/text@1']['input'];
       readonly role_name: CodecTypes['pg/text@1']['input'];
+    };
+    readonly admin: {
+      readonly id: CodecTypes['pg/uuid@1']['input'];
+      readonly password_hash: CodecTypes['pg/text@1']['input'];
+      readonly username: CodecTypes['pg/text@1']['input'];
     };
     readonly category: {
       readonly category_id: CodecTypes['pg/uuid@1']['input'];
@@ -509,6 +519,11 @@ export type StorageColumnTypes = {
       readonly account_role_id: CodecTypes['pg/text@1']['output'];
       readonly role_name: CodecTypes['pg/text@1']['output'];
     };
+    readonly admin: {
+      readonly id: CodecTypes['pg/uuid@1']['output'];
+      readonly password_hash: CodecTypes['pg/text@1']['output'];
+      readonly username: CodecTypes['pg/text@1']['output'];
+    };
     readonly category: {
       readonly category_id: CodecTypes['pg/uuid@1']['output'];
       readonly category_name: CodecTypes['pg/text@1']['output'];
@@ -640,6 +655,11 @@ export type StorageColumnInputTypes = {
     readonly account_role: {
       readonly account_role_id: CodecTypes['pg/text@1']['input'];
       readonly role_name: CodecTypes['pg/text@1']['input'];
+    };
+    readonly admin: {
+      readonly id: CodecTypes['pg/uuid@1']['input'];
+      readonly password_hash: CodecTypes['pg/text@1']['input'];
+      readonly username: CodecTypes['pg/text@1']['input'];
     };
     readonly category: {
       readonly category_id: CodecTypes['pg/uuid@1']['input'];
@@ -774,6 +794,12 @@ export namespace Models {
   export type public_account_role = {
     account_role_id: CodecTypes['pg/text@1']['output'];
     role_name: CodecTypes['pg/text@1']['output'];
+    readonly [RelationKeys]?: never;
+  };
+  export type public_admin = {
+    id: CodecTypes['pg/uuid@1']['output'];
+    password_hash: CodecTypes['pg/text@1']['output'];
+    username: CodecTypes['pg/text@1']['output'];
     readonly [RelationKeys]?: never;
   };
   export type public_category = {
@@ -941,6 +967,7 @@ export declare const models: {
   public: {
     account: Models.public_account;
     account_role: Models.public_account_role;
+    admin: Models.public_admin;
     category: Models.public_category;
     clinical_assessment: Models.public_clinical_assessment;
     differential_diagnosis: Models.public_differential_diagnosis;
@@ -1014,11 +1041,15 @@ type ContractBase = Omit<
                 };
               };
               primaryKey: { readonly columns: readonly ['account_id'] };
-              uniques: readonly [
-                { readonly columns: readonly ['account_role_id'] },
-                { readonly columns: readonly ['email'] },
+              uniques: readonly [{ readonly columns: readonly ['email'] }];
+              indexes: readonly [
+                {
+                  readonly name: 'account_account_role_id_idx_e5327e38';
+                  readonly prefix: 'account_account_role_id_idx';
+                  readonly columns: readonly ['account_role_id'];
+                  readonly unique: false;
+                },
               ];
-              indexes: readonly [];
               foreignKeys: readonly [
                 {
                   readonly source: {
@@ -1051,6 +1082,32 @@ type ContractBase = Omit<
               };
               primaryKey: { readonly columns: readonly ['account_role_id'] };
               uniques: readonly [{ readonly columns: readonly ['role_name'] }];
+              indexes: readonly [];
+              foreignKeys: readonly [];
+            };
+            readonly admin: {
+              columns: {
+                readonly id: {
+                  readonly dataType: 'pg/uuid';
+                  readonly codecId: 'pg/uuid@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly password_hash: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly username: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+              };
+              primaryKey: { readonly columns: readonly ['id'] };
+              uniques: readonly [];
               indexes: readonly [];
               foreignKeys: readonly [];
             };
@@ -1333,15 +1390,8 @@ type ContractBase = Omit<
                 };
               };
               primaryKey: { readonly columns: readonly ['employee_id'] };
-              uniques: readonly [];
-              indexes: readonly [
-                {
-                  readonly name: 'employee_account_id_idx_3b48271c';
-                  readonly prefix: 'employee_account_id_idx';
-                  readonly columns: readonly ['account_id'];
-                  readonly unique: false;
-                },
-              ];
+              uniques: readonly [{ readonly columns: readonly ['account_id'] }];
+              indexes: readonly [];
               foreignKeys: readonly [
                 {
                   readonly source: {
@@ -2065,6 +2115,7 @@ type ContractBase = Omit<
       readonly namespace: 'public' & NamespaceId;
       readonly model: 'account_role';
     };
+    readonly admin: { readonly namespace: 'public' & NamespaceId; readonly model: 'admin' };
     readonly category: { readonly namespace: 'public' & NamespaceId; readonly model: 'category' };
     readonly clinical_assessment: {
       readonly namespace: 'public' & NamespaceId;
@@ -2187,6 +2238,32 @@ type ContractBase = Omit<
               readonly fields: {
                 readonly account_role_id: { readonly column: 'account_role_id' };
                 readonly role_name: { readonly column: 'role_name' };
+              };
+            };
+          };
+          readonly admin: {
+            readonly fields: {
+              readonly id: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/uuid@1' };
+              };
+              readonly password_hash: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly username: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+            };
+            readonly relations: Record<string, never>;
+            readonly storage: {
+              readonly table: 'admin';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly id: { readonly column: 'id' };
+                readonly password_hash: { readonly column: 'password_hash' };
+                readonly username: { readonly column: 'username' };
               };
             };
           };
@@ -3185,6 +3262,14 @@ type ContractBase = Omit<
           readonly ref: {
             readonly entry: 'account_role';
             readonly field: 'account_role_id';
+            readonly namespace: 'public';
+          };
+        },
+        {
+          readonly onCreate: { readonly id: 'uuidv4'; readonly kind: 'generator' };
+          readonly ref: {
+            readonly entry: 'admin';
+            readonly field: 'id';
             readonly namespace: 'public';
           };
         },

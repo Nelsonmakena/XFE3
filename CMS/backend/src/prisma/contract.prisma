@@ -1,9 +1,15 @@
 // use prisma-8
+model admin {
+  id Uuid @id @default(uuid())
+  username String 
+  password_hash String 
+}
+
 model account {
   account_id String @id @default(uuid()) 
   password_hash String
   created_at DateTime @default(now())
-  account_role_id String @unique
+  account_role_id String 
   email String @unique
   account_type account_role @relation(fields: [account_role_id],references:[account_role_id])
 }
@@ -18,7 +24,7 @@ model employee {
   middle_name String?
   last_name String?
   added_at DateTime @default(now())
-  account_id String
+  account_id String @unique
   account account @relation(fields:[account_id],references: [account_id])
 
 

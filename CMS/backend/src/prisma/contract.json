@@ -12,6 +12,10 @@
       "model": "account_role",
       "namespace": "public"
     },
+    "admin": {
+      "model": "admin",
+      "namespace": "public"
+    },
     "category": {
       "model": "category",
       "namespace": "public"
@@ -192,6 +196,47 @@
               },
               "namespaceId": "public",
               "table": "account_role"
+            }
+          },
+          "admin": {
+            "fields": {
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/uuid@1",
+                  "kind": "scalar"
+                }
+              },
+              "password_hash": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "username": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {},
+            "storage": {
+              "fields": {
+                "id": {
+                  "column": "id"
+                },
+                "password_hash": {
+                  "column": "password_hash"
+                },
+                "username": {
+                  "column": "username"
+                }
+              },
+              "namespaceId": "public",
+              "table": "admin"
             }
           },
           "category": {
@@ -1666,9 +1711,7 @@
               "foreignKeys": [
                 {
                   "index": {
-                    "unique": [
-                      "account_role_id"
-                    ]
+                    "name": "account_account_role_id_idx_e5327e38"
                   },
                   "source": {
                     "columns": [
@@ -1686,18 +1729,22 @@
                   }
                 }
               ],
-              "indexes": [],
+              "indexes": [
+                {
+                  "columns": [
+                    "account_role_id"
+                  ],
+                  "name": "account_account_role_id_idx_e5327e38",
+                  "prefix": "account_account_role_id_idx",
+                  "unique": false
+                }
+              ],
               "primaryKey": {
                 "columns": [
                   "account_id"
                 ]
               },
               "uniques": [
-                {
-                  "columns": [
-                    "account_role_id"
-                  ]
-                },
                 {
                   "columns": [
                     "email"
@@ -1732,6 +1779,33 @@
                   ]
                 }
               ]
+            },
+            "admin": {
+              "columns": {
+                "id": {
+                  "codecId": "pg/uuid@1",
+                  "dataType": "pg/uuid",
+                  "nullable": false
+                },
+                "password_hash": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "username": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [],
+              "indexes": [],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": []
             },
             "category": {
               "columns": {
@@ -2066,7 +2140,9 @@
               "foreignKeys": [
                 {
                   "index": {
-                    "name": "employee_account_id_idx_3b48271c"
+                    "unique": [
+                      "account_id"
+                    ]
                   },
                   "source": {
                     "columns": [
@@ -2084,22 +2160,19 @@
                   }
                 }
               ],
-              "indexes": [
-                {
-                  "columns": [
-                    "account_id"
-                  ],
-                  "name": "employee_account_id_idx_3b48271c",
-                  "prefix": "employee_account_id_idx",
-                  "unique": false
-                }
-              ],
+              "indexes": [],
               "primaryKey": {
                 "columns": [
                   "employee_id"
                 ]
               },
-              "uniques": []
+              "uniques": [
+                {
+                  "columns": [
+                    "account_id"
+                  ]
+                }
+              ]
             },
             "encounter": {
               "columns": {
@@ -2924,10 +2997,10 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "3b69f8f504662634f925a4a0b9fac99ec2d561f978723e753a68c67e80993eab"
+    "storageHash": "091ac711211e8f5290a1a6a07c55f2f514caa14dd19291831fd1553f28aec9a0"
   },
   "execution": {
-    "executionHash": "aac86a2338bdad001c14c6ae4afca0de19e30ed64097151d6d62143e3ab3ae6f",
+    "executionHash": "5ad40b91038a4adae1de18f05e245c174f9399543ec9a832d15ff671d51b884c",
     "mutations": {
       "defaults": [
         {
@@ -2949,6 +3022,17 @@
           "ref": {
             "entry": "account_role",
             "field": "account_role_id",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "uuidv4",
+            "kind": "generator"
+          },
+          "ref": {
+            "entry": "admin",
+            "field": "id",
             "namespace": "public"
           }
         },

@@ -1,5 +1,6 @@
 import { db } from "../../prisma/db.ts";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export const newAccountRole = async (req, res) => {
   const { role_name } = req.body;

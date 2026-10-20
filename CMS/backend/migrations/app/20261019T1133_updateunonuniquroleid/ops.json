@@ -1,0 +1,164 @@
+[
+  {
+    "id": "dropConstraint.account.account_account_role_id_key",
+    "label": "Drop constraint \"account_account_role_id_key\" on \"account\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "account_account_role_id_key",
+        "table": "account"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"account_account_role_id_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "account_account_role_id_key",
+          "public",
+          "\"public\".\"account\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop constraint \"account_account_role_id_key\"",
+        "sql": "ALTER TABLE \"public\".\"account\" DROP CONSTRAINT \"account_account_role_id_key\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"account_account_role_id_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "account_account_role_id_key",
+          "public",
+          "\"public\".\"account\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "dropIndex.employee.employee_account_id_idx_3b48271c",
+    "label": "Drop index \"employee_account_id_idx_3b48271c\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "employee_account_id_idx_3b48271c",
+        "table": "employee"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"employee_account_id_idx_3b48271c\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"employee_account_id_idx_3b48271c\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop index \"employee_account_id_idx_3b48271c\"",
+        "sql": "DROP INDEX \"public\".\"employee_account_id_idx_3b48271c\"",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"employee_account_id_idx_3b48271c\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"employee_account_id_idx_3b48271c\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.employee.employee_account_id_key",
+    "label": "Add unique constraint on \"employee\" (account_id)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "employee_account_id_key",
+        "table": "employee"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"employee_account_id_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "employee_account_id_key",
+          "public",
+          "\"public\".\"employee\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"employee_account_id_key\"",
+        "sql": "ALTER TABLE \"public\".\"employee\" ADD CONSTRAINT \"employee_account_id_key\" UNIQUE (\"account_id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"employee_account_id_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "employee_account_id_key",
+          "public",
+          "\"public\".\"employee\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.account.account_account_role_id_idx_e5327e38",
+    "label": "Create index \"account_account_role_id_idx_e5327e38\" on \"account\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "account_account_role_id_idx_e5327e38",
+        "table": "account"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"account_account_role_id_idx_e5327e38\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"account_account_role_id_idx_e5327e38\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"account_account_role_id_idx_e5327e38\"",
+        "sql": "CREATE INDEX \"account_account_role_id_idx_e5327e38\" ON \"public\".\"account\" (\"account_role_id\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"account_account_role_id_idx_e5327e38\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"account_account_role_id_idx_e5327e38\""
+        ]
+      }
+    ]
+  }
+]
