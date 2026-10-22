@@ -71,11 +71,13 @@ export const newPatient = async (req, res) => {
 
 export const newPatientEncounter = async (req, res) => {
   const { patient_id, encounter_type, complaints } = req.body;
+  const { employee_id } = req.userInfo;
   try {
     const response = await db.orm.public.encounter.create({
       patient_id: patient_id,
       encounter_type: encounter_type,
       complaints: complaints,
+      created_by: employee_id,
     });
     res
       .status(200)

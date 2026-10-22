@@ -53,6 +53,7 @@ export const employeeLogin = async (req, res) => {
             .include("account_type", (u) => u.select("role_name")),
         )
         .first();
+
       const token = jwt.sign(employee, ENV.JWT_SECRET_KEY, {
         expiresIn: "1hr",
       });
