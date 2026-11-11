@@ -82,7 +82,7 @@ patient patient @relation(fields: [patient_id],references: [patient_id])
  }
  model lab_request {
   lab_request_id Uuid @id @default(uuid())
-  encounter_id Uuid
+  encounter_id Uuid 
   laboratory_note String
   status String
   time_requested DateTime @default(now())

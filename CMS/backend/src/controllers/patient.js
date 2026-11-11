@@ -89,3 +89,40 @@ export const newPatientEncounter = async (req, res) => {
       .json({ success: false, message: "patient data cannot be added " });
   }
 };
+
+export const newClinicalAssessment = async (req, res) => {
+  const { employee_id } = req.userInfo;
+  const { assessment, encounter_id } = req.body;
+  try {
+    const response = await db.orm.public.clinical_assessment.create({
+      assessment: assessment,
+      assessed_by: employee_id,
+      encounter_id: encounter_id,
+    });
+    res.status(200).json({ success: true, message: "assessment recorded" });
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({
+      success: false,
+      message: "error in adding clinical assessment ",
+    });
+  }
+};
+
+export const newDifferentialDiagnosis = async (req, res) => {
+  const { encounter_id, description, notes } = req.body;
+  try {
+    const response = await db.orm.public.differential_diagnosis.create({
+      encounter_id: encounter_id,
+      description: description,
+      notes: notes,
+    });
+    res.status(200).json({ success: true, message: "differential added" });
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({
+      success: false,
+      message: "differential diagnosis cant be recorded ",
+    });
+  }
+};

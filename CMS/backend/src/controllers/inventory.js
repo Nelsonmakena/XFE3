@@ -34,7 +34,7 @@ export const category = async (req, res) => {
 export const newMedicineItem = async (req, res) => {
   const { medicine_name, form, base_unit, category_id } = req.body;
   try {
-    const medicine = db.orm.public.medicine.create({
+    const medicine = await db.orm.public.medicine.create({
       medicine_name: medicine_name,
       form: form,
       base_unit: base_unit,
@@ -55,11 +55,18 @@ export const newMedicineItem = async (req, res) => {
 // adding a stock
 
 export const newStock = async (req, res) => {
-  const { medicine_id, supplier_name, boxes, units } = req.body;
+  const { inventory_id, supplier_name, boxes, units } = req.body;
   try {
-    const stock = db.orm.public.receiving_stock.create({
-      med,
+    const stock = await db.orm.public.receiving_stock.create({
+      supplier_name: supplier_name,
+      boxes_received: boxes,
+      units_per_box: units,
+      inventory_id: inventory_id,
     });
+
+    res
+      .status(200)
+      .json({ success: true, message: "stock added", data: stock });
   } catch (error) {
     console.log(error.message);
     res.status(400).json({ success: true, message: "stock cant be added" });
