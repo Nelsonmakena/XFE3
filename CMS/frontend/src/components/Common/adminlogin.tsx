@@ -6,9 +6,11 @@ import { adminLogin } from "@/store/auth";
 import type { AppDispatch } from "@/store/store";
 import { useState } from "react";
 import { toast } from "@/components/ui/toast";
+import { useNavigate } from "react-router";
 
 export default function AdminLogin() {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const [data, setData] = useState({
     username: "",
     password: "",
@@ -25,6 +27,7 @@ export default function AdminLogin() {
     const results = await dispatch(adminLogin(data));
     if (results.payload?.success) {
       toast.add({ type: "success", description: results.payload.message });
+      navigate("/admin/home");
     } else {
       toast.add({
         type: "warning",
@@ -34,7 +37,7 @@ export default function AdminLogin() {
   };
   return (
     <section className="w-full h-screen flex flex-col items-center justify-center">
-      <h2 className="text-4xl text-primary font-bold tracking-widest">
+      <h2 className="text-4xl text-secondary font-bold tracking-widest">
         Welcome
       </h2>
       <div className=" md:w-96 w-80 ">
@@ -64,7 +67,7 @@ export default function AdminLogin() {
               ></Input>
             </div>
           </div>
-          <Button type="submit" size={"lg"}>
+          <Button type="submit" size={"lg"} className="h-11">
             login <LogIn />
           </Button>
         </form>

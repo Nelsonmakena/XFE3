@@ -10,26 +10,32 @@ export interface MenuItem {
 }
 
 export const DoctorMenuItems: MenuItem[] = [
-  { label: "Dashboard", items: [{ name: "Home", path: "", icon: Home }] },
+  {
+    label: "Dashboard",
+    items: [{ name: "Home", path: "", icon: Home }],
+  },
   {
     label: "patients",
     items: [
-      { name: "incoming", path: "" },
-      { name: "diognized", path: "" },
-      { name: "attendance", path: "" },
+      { name: "incoming", path: "d" },
+      { name: "diognized", path: "d" },
+      { name: "attendance", path: "d" },
     ],
   },
   {
     label: "Exams",
     items: [
-      { name: "Subjects", path: "" },
-      { name: "Time Table", path: "" },
+      { name: "Subjects", path: "d" },
+      { name: "Time Table", path: "d" },
     ],
   },
 ];
 
 export const AdminMenuItems: MenuItem[] = [
-  { label: "Dashboard", items: [{ name: "Home", path: "", icon: Home }] },
+  {
+    label: "Dashboard",
+    items: [{ name: "Home", path: "/admin/home", icon: Home }],
+  },
   {
     label: "management",
     items: [

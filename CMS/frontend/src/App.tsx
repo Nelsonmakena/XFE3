@@ -10,6 +10,7 @@ import AdminLogin from "./components/Common/adminlogin.tsx";
 
 //admin imports
 const AdminIndex = lazy(() => import("./admin/index"));
+const AdminHome = lazy(() => import("./admin/pages/home.tsx"));
 
 function App() {
   return (
@@ -35,7 +36,7 @@ function App() {
             </Authenticated>
           }
         >
-          <Route path="home" />
+          <Route path="home" element={<AdminHome />} />
           <Route path="calender">
             <Route path="academic-years" />
           </Route>

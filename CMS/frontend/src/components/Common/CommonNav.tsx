@@ -1,7 +1,7 @@
 import type { MenuItem } from "@/utils/menuitems";
-import { useNavigate } from "react-router";
-import SVG from "react-inlinesvg";
-import Logo from "../../assets/logo.svg";
+import { useLocation, useNavigate } from "react-router";
+
+import mainLogo from "../../assets/mainlogo.png";
 interface CommonNavProps {
   navItems: MenuItem[];
   isAdmin?: boolean;
@@ -9,16 +9,19 @@ interface CommonNavProps {
 
 export default function CommonNav({ navItems, isAdmin }: CommonNavProps) {
   const navigate = useNavigate();
+  const location = useLocation();
+  const path = location.pathname;
+  console.log(path);
+
   return (
     <section className="h-screen flex flex-col relative ">
       {/* logo */}
       <div
-        className={`h-35 shrink-0  flex flex-col items-center  py-2  ${isAdmin ? "bg-secondary" : "bg-primary"}`}
+        className={`p-3 h-35 shrink-0  flex flex-col items-center  py-2  ${isAdmin ? "bg-secondary" : "bg-primary"}`}
       >
-        <SVG src={Logo} width={40} height={40} className="text-amber-100 " />
-        <h1 className="tracking-widest capitalize font-bold ">
-          Greenfield Academy
-        </h1>
+        <div>
+          <img src={mainLogo} className="object-cover" />
+        </div>
       </div>
       {/* nav items */}
       <div className="flex-1 min-h-0 px-1 z-10 relative -mt-8 ">
@@ -39,7 +42,7 @@ export default function CommonNav({ navItems, isAdmin }: CommonNavProps) {
                       <div
                         key={index}
                         onClick={() => navigate(singleItem.path)}
-                        className="h-12 rounded-md  flex items-center px-4   cursor-pointer"
+                        className={`h-12 rounded-md capitalize flex items-center px-4  cursor-pointer ${path === singleItem.path ? "bg-secondary text-white tracking-wide   " : "shadow-xs border border-secondary/10"}`}
                       >
                         <h1>{singleItem.name}</h1>
                       </div>
