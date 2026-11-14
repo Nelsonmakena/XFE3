@@ -1,39 +1,77 @@
+import type { ApiResponse } from "@/types/types";
+import { handleAxiosError } from "@/utils/axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 interface loginData {
-  email: string;
+  email?: string;
+  username?: string;
   password: string;
 }
-
+interface TokenData {
+  iat: number;
+  exp: number;
+}
 interface checkAuth {
   success: boolean;
   message: string;
-  data: User["user"];
+  data: (Employee & TokenData) | (Admin & TokenData) | null;
+}
+
+export interface Employee {
+  first_name: string;
+  last_name: string;
+  account_id: string;
+  role: string;
+}
+export interface Admin {
+  id: string;
+  user_name: string;
 }
 export interface User {
   isLoading: boolean;
-  user: {
-    first_name: string;
-    last_name: string;
-    instructor_id: string;
-    role: string;
-  };
+  user: Employee | Admin | null;
   authenticated: boolean;
 }
 const initialState: User = {
   isLoading: true,
-  user: { first_name: "", last_name: "", instructor_id: "", role: "" },
+  user: null,
   authenticated: false,
 };
-///instructor login
-export const InstructorLogin = createAsyncThunk(
-  "instructor-log",
-  async (data: loginData) => {
-    const response = await axios.post("/api/auth/instructor", data);
+
+///employee login
+export const employeeLogin = createAsyncThunk<
+  ApiResponse<Employee>,
+  loginData,
+  { rejectValue: ApiResponse<never> }
+>("employee-log", async (data, { rejectWithValue }) => {
+  try {
+    const response = await axios.post<ApiResponse<Employee>>(
+      "/api/auth/login",
+      data,
+    );
     return response.data;
-  },
-);
+  } catch (error) {
+    return rejectWithValue(handleAxiosError(error));
+  }
+});
+
+///admin login
+export const adminLogin = createAsyncThunk<
+  ApiResponse<Admin>,
+  loginData,
+  { rejectValue: ApiResponse<never> }
+>("admin-log", async (data, { rejectWithValue }) => {
+  try {
+    const response = await axios.post<ApiResponse<Admin>>(
+      "/api/auth/admin-login",
+      data,
+    );
+    return response.data;
+  } catch (error) {
+    return rejectWithValue(handleAxiosError(error));
+  }
+});
 
 //checking auth
 export const checkAuth = createAsyncThunk<checkAuth>("check-auth", async () => {
@@ -47,21 +85,37 @@ export const authSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(InstructorLogin.fulfilled, (state, action) => {
+      .addCase(employeeLogin.fulfilled, (state, action) => {
         if (action.payload.success) {
           state.user = action.payload.data;
           state.isLoading = false;
           state.authenticated = true;
         }
       })
-      .addCase(InstructorLogin.pending, (state) => {
+      .addCase(employeeLogin.pending, (state) => {
         state.authenticated = false;
         state.isLoading = true;
       })
-      .addCase(InstructorLogin.rejected, (state) => {
+      .addCase(employeeLogin.rejected, (state) => {
         state.authenticated = false;
         state.isLoading = false;
       })
+      .addCase(adminLogin.fulfilled, (state, action) => {
+        if (action.payload.success) {
+          state.user = action.payload.data;
+          state.isLoading = false;
+          state.authenticated = true;
+        }
+      })
+      .addCase(adminLogin.pending, (state) => {
+        state.authenticated = false;
+        state.isLoading = true;
+      })
+      .addCase(adminLogin.rejected, (state) => {
+        state.authenticated = false;
+        state.isLoading = false;
+      })
+
       .addCase(checkAuth.fulfilled, (state, action) => {
         if (action.payload.success) {
           state.isLoading = false;

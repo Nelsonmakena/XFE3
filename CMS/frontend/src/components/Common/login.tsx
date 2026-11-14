@@ -2,10 +2,11 @@ import { useDispatch } from "react-redux";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { LogIn } from "lucide-react";
-import { InstructorLogin } from "@/store/auth";
+
 import type { AppDispatch } from "@/store/store";
 import { useState } from "react";
 import { toast } from "@/components/ui/toast";
+import { employeeLogin } from "@/store/auth";
 interface loginData {
   email: string;
   password: string;
@@ -23,15 +24,14 @@ export default function Login() {
       [e.target.name]: e.target.value,
     });
   };
-  const login = (e: React.SubmitEvent<HTMLFormElement>) => {
+  const login = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(InstructorLogin(data)).then((results) => {
-      if (results?.payload.success) {
-        toast.add({ type: "success", description: results.payload.message });
-      } else {
-        toast.add({ type: "warning", description: results.payload.message });
-      }
-    });
+    const results = await dispatch(employeeLogin(data));
+    if (results.payload?.success) {
+      toast.add({ type: "success", description: results.payload.message });
+    } else {
+      toast.add({ type: "warning", description: results.payload?.message });
+    }
   };
   return (
     <section className="w-full h-screen flex flex-col items-center justify-center">

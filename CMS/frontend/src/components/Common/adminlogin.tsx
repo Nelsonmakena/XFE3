@@ -2,18 +2,15 @@ import { useDispatch } from "react-redux";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { LogIn } from "lucide-react";
-import { InstructorLogin } from "@/store/auth";
+import { adminLogin } from "@/store/auth";
 import type { AppDispatch } from "@/store/store";
 import { useState } from "react";
 import { toast } from "@/components/ui/toast";
-interface loginData {
-  email: string;
-  password: string;
-}
+
 export default function AdminLogin() {
   const dispatch = useDispatch<AppDispatch>();
-  const [data, setData] = useState<loginData>({
-    email: "",
+  const [data, setData] = useState({
+    username: "",
     password: "",
   });
 
@@ -23,15 +20,17 @@ export default function AdminLogin() {
       [e.target.name]: e.target.value,
     });
   };
-  const login = (e: React.SubmitEvent<HTMLFormElement>) => {
+  const login = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(InstructorLogin(data)).then((results) => {
-      if (results?.payload.success) {
-        toast.add({ type: "success", description: results.payload.message });
-      } else {
-        toast.add({ type: "warning", description: results.payload.message });
-      }
-    });
+    const results = await dispatch(adminLogin(data));
+    if (results.payload?.success) {
+      toast.add({ type: "success", description: results.payload.message });
+    } else {
+      toast.add({
+        type: "warning",
+        description: results.payload?.message ?? "Something went wrong",
+      });
+    }
   };
   return (
     <section className="w-full h-screen flex flex-col items-center justify-center">
@@ -46,10 +45,10 @@ export default function AdminLogin() {
           <div className="flex flex-col gap-normal mt-2">
             <div className="px-3">
               <Input
-                placeholder="email"
-                type="email"
-                name="email"
-                value={data.email}
+                placeholder="username"
+                type="text"
+                name="username"
+                value={data.username}
                 onChange={handleInput}
                 required
               ></Input>
