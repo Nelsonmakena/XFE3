@@ -13,6 +13,10 @@ interface EmpoloyeeRole {
   role_description: string;
   employeeCount: number;
 }
+export interface EmployeRoleData {
+  role_name: string;
+  role_description: string;
+}
 
 interface initialState {
   employeeRoles: EmpoloyeeRole[];
@@ -47,12 +51,13 @@ export const getEmployeeRoleList = createAsyncThunk<
 ///adding a new employee role
 export const newEmployeeRole = createAsyncThunk<
   ApiResponse<EmpoloyeeRole>,
-  void,
+  EmployeRoleData,
   { rejectValue: ApiResponse<never> }
->("new-employee-role", async (_, { rejectWithValue }) => {
+>("new-employee-role", async (data: EmployeRoleData, { rejectWithValue }) => {
   try {
     const response = await axios.put<ApiResponse<EmpoloyeeRole>>(
       "/api/admin/employee-role",
+      data,
       {
         withCredentials: true,
       },
@@ -64,7 +69,7 @@ export const newEmployeeRole = createAsyncThunk<
 });
 
 export const employeeSlice = createSlice({
-  name: "account",
+  name: "employee",
   initialState,
   reducers: {},
   extraReducers: (builder) => {

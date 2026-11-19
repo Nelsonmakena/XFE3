@@ -9,3 +9,8 @@ export type ApiResponse<T> =
       message?: string;
       data?: never;
     };
+
+export type ModifiedArray = {
+  id: string;
+  name: string;
+};

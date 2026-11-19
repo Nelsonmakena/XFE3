@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 export const newAccountRole = async (req, res) => {
-  const { role_name } = req.body;
+  const { role_name  } = req.body;
   if (!role_name) {
     return res.status(400).json({
       success: false,
