@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authSlice from "./auth";
-import scheduleSlice from "./ScheduleSlice";
+import employeeSlice from "./employee";
+import accountSlice from "./accounts";
 
 const store = configureStore({
   reducer: {
     auth: authSlice,
-    schedule: scheduleSlice,
+    employee: employeeSlice,
+    accounts: accountSlice,
   },
 });
 export default store;

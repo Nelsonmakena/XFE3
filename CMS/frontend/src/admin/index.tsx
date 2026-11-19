@@ -5,10 +5,10 @@ import { Outlet } from "react-router";
 export default function AdminIndex() {
   return (
     <main className="flex ">
-      <div className="w-64 h-full  ">
+      <div className="w-64 h-full sticky top-0  ">
         <CommonNav navItems={AdminMenuItems} isAdmin={true} />
       </div>
-      <div className="container-main mt-2.5">
+      <div className="flex-1 container-main mt-2.5 min-w-0">
         <Outlet />
       </div>
     </main>

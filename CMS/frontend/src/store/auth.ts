@@ -32,11 +32,13 @@ export interface User {
   isLoading: boolean;
   user: Employee | Admin | null;
   authenticated: boolean;
+  isCheckingAuth: boolean;
 }
 const initialState: User = {
   isLoading: true,
   user: null,
   authenticated: false,
+  isCheckingAuth: true,
 };
 
 ///employee login
@@ -118,21 +120,22 @@ export const authSlice = createSlice({
 
       .addCase(checkAuth.fulfilled, (state, action) => {
         if (action.payload.success) {
-          state.isLoading = false;
+          state.isCheckingAuth = false;
           state.user = action.payload.data;
           state.authenticated = true;
-        } else {
           state.isLoading = false;
+        } else {
+          state.isCheckingAuth = false;
           state.authenticated = false;
         }
       })
       .addCase(checkAuth.pending, (state) => {
-        state.isLoading = true;
-        state.authenticated = false;
+        state.isCheckingAuth = true;
       })
       .addCase(checkAuth.rejected, (state) => {
         state.authenticated = false;
         state.isLoading = false;
+        state.isCheckingAuth = false;
       });
   },
 });

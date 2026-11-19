@@ -11,7 +11,6 @@ export default function CommonNav({ navItems, isAdmin }: CommonNavProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const path = location.pathname;
-  console.log(path);
 
   return (
     <section className="h-screen flex flex-col relative ">
@@ -19,9 +18,7 @@ export default function CommonNav({ navItems, isAdmin }: CommonNavProps) {
       <div
         className={`p-3 h-35 shrink-0  flex flex-col items-center  py-2  ${isAdmin ? "bg-secondary" : "bg-primary"}`}
       >
-        <div>
-          <img src={mainLogo} className="object-cover" />
-        </div>
+        <h1>CMS</h1>
       </div>
       {/* nav items */}
       <div className="flex-1 min-h-0 px-1 z-10 relative -mt-8 ">

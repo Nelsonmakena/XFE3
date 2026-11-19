@@ -11,6 +11,9 @@ import AdminLogin from "./components/Common/adminlogin.tsx";
 //admin imports
 const AdminIndex = lazy(() => import("./admin/index"));
 const AdminHome = lazy(() => import("./admin/pages/home.tsx"));
+const AdminRoles = lazy(
+  () => import("./admin/pages/employee/employeeroles.tsx"),
+);
 
 function App() {
   return (
@@ -37,8 +40,8 @@ function App() {
           }
         >
           <Route path="home" element={<AdminHome />} />
-          <Route path="calender">
-            <Route path="academic-years" />
+          <Route path="management">
+            <Route path="roles" element={<AdminRoles />} />
           </Route>
         </Route>
       </Routes>

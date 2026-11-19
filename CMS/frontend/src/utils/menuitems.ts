@@ -1,11 +1,11 @@
-import { Home } from "lucide-react";
+import { Home, type LucideIcon } from "lucide-react";
 
 export interface MenuItem {
   label: string;
   items: {
     name: string;
     path: string;
-    icon?: React.ElementType | string;
+    icon?: LucideIcon | string;
   }[];
 }
 
@@ -40,22 +40,8 @@ export const AdminMenuItems: MenuItem[] = [
     label: "management",
     items: [
       { name: "employees", path: "" },
-      { name: "", path: "" },
+      { name: "roles", path: "/admin/management/roles" },
+      { name: "accounts", path: "" },
     ],
   },
-  {
-    label: "setup",
-    items: [
-      { name: "classes", path: "" },
-      { name: "instructors", path: "" },
-      { name: "subjects", path: "" },
-    ],
-  },
-
-  { label: "subjects", items: [] },
-  { label: "students", items: [{ name: "", path: "" }] },
-  { label: "exams", items: [] },
-  { label: "schedule", items: [] },
-  { label: "instructors", items: [] },
-  { label: "reports", items: [] },
 ];
