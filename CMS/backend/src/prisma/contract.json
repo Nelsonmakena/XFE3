@@ -36,6 +36,10 @@
       "model": "employee",
       "namespace": "public"
     },
+    "employee_role": {
+      "model": "employee_role",
+      "namespace": "public"
+    },
     "encounter": {
       "model": "encounter",
       "namespace": "public"
@@ -581,6 +585,13 @@
                   "kind": "scalar"
                 }
               },
+              "empolyee_role": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/uuid@1",
+                  "kind": "scalar"
+                }
+              },
               "first_name": {
                 "nullable": true,
                 "type": {
@@ -619,6 +630,22 @@
                   "model": "account",
                   "namespace": "public"
                 }
+              },
+              "employerole": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "empolyee_role"
+                  ],
+                  "targetFields": [
+                    "role_id"
+                  ]
+                },
+                "to": {
+                  "model": "employee_role",
+                  "namespace": "public"
+                }
               }
             },
             "storage": {
@@ -632,6 +659,9 @@
                 "employee_id": {
                   "column": "employee_id"
                 },
+                "empolyee_role": {
+                  "column": "empolyee_role"
+                },
                 "first_name": {
                   "column": "first_name"
                 },
@@ -644,6 +674,47 @@
               },
               "namespaceId": "public",
               "table": "employee"
+            }
+          },
+          "employee_role": {
+            "fields": {
+              "role_description": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "role_id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/uuid@1",
+                  "kind": "scalar"
+                }
+              },
+              "role_name": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {},
+            "storage": {
+              "fields": {
+                "role_description": {
+                  "column": "role_description"
+                },
+                "role_id": {
+                  "column": "role_id"
+                },
+                "role_name": {
+                  "column": "role_name"
+                }
+              },
+              "namespaceId": "public",
+              "table": "employee_role"
             }
           },
           "encounter": {
@@ -2121,6 +2192,11 @@
                   "dataType": "pg/uuid",
                   "nullable": false
                 },
+                "empolyee_role": {
+                  "codecId": "pg/uuid@1",
+                  "dataType": "pg/uuid",
+                  "nullable": false
+                },
                 "first_name": {
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
@@ -2158,6 +2234,27 @@
                     "namespaceId": "public",
                     "tableName": "account"
                   }
+                },
+                {
+                  "index": {
+                    "unique": [
+                      "empolyee_role"
+                    ]
+                  },
+                  "source": {
+                    "columns": [
+                      "empolyee_role"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "employee"
+                  },
+                  "target": {
+                    "columns": [
+                      "role_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "employee_role"
+                  }
                 }
               ],
               "indexes": [],
@@ -2171,8 +2268,40 @@
                   "columns": [
                     "account_id"
                   ]
+                },
+                {
+                  "columns": [
+                    "empolyee_role"
+                  ]
                 }
               ]
+            },
+            "employee_role": {
+              "columns": {
+                "role_description": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "role_id": {
+                  "codecId": "pg/uuid@1",
+                  "dataType": "pg/uuid",
+                  "nullable": false
+                },
+                "role_name": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [],
+              "indexes": [],
+              "primaryKey": {
+                "columns": [
+                  "role_id"
+                ]
+              },
+              "uniques": []
             },
             "encounter": {
               "columns": {
@@ -2997,10 +3126,10 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "091ac711211e8f5290a1a6a07c55f2f514caa14dd19291831fd1553f28aec9a0"
+    "storageHash": "b7e1e6d4437e3f8f0464a86f95fed210149c382b46c2c6a7803282357eea60cf"
   },
   "execution": {
-    "executionHash": "5ad40b91038a4adae1de18f05e245c174f9399543ec9a832d15ff671d51b884c",
+    "executionHash": "e52e3b9ddac07f7955dd21e23829e5439b342b16cf0ec9d83ee7baa8e72e78aa",
     "mutations": {
       "defaults": [
         {
@@ -3088,6 +3217,17 @@
           "ref": {
             "entry": "employee",
             "field": "employee_id",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "uuidv4",
+            "kind": "generator"
+          },
+          "ref": {
+            "entry": "employee_role",
+            "field": "role_id",
             "namespace": "public"
           }
         },

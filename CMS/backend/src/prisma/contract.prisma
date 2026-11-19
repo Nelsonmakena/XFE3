@@ -25,9 +25,15 @@ model employee {
   last_name String?
   added_at DateTime @default(now())
   account_id String @unique
+  empolyee_role Uuid @unique
   account account @relation(fields:[account_id],references: [account_id])
+  employerole  employee_role @relation(fields: [empolyee_role],references: [role_id])
 
-
+}
+model employee_role {
+  role_id Uuid @id @default(uuid())
+  role_name String
+  role_description String
 }
 model  patient {
   patient_id Uuid @id @default(uuid())

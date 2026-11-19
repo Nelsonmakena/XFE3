@@ -18,9 +18,9 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'091ac711211e8f5290a1a6a07c55f2f514caa14dd19291831fd1553f28aec9a0'>;
+  StorageHashBase<'b7e1e6d4437e3f8f0464a86f95fed210149c382b46c2c6a7803282357eea60cf'>;
 export type ExecutionHash =
-  ExecutionHashBase<'5ad40b91038a4adae1de18f05e245c174f9399543ec9a832d15ff671d51b884c'>;
+  ExecutionHashBase<'e52e3b9ddac07f7955dd21e23829e5439b342b16cf0ec9d83ee7baa8e72e78aa'>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
 
@@ -278,9 +278,15 @@ export type FieldOutputTypes = {
       readonly account_id: CodecTypes['pg/text@1']['output'];
       readonly added_at: CodecTypes['pg/timestamptz-temporal@1']['output'];
       readonly employee_id: CodecTypes['pg/uuid@1']['output'];
+      readonly empolyee_role: CodecTypes['pg/uuid@1']['output'];
       readonly first_name: CodecTypes['pg/text@1']['output'] | null;
       readonly last_name: CodecTypes['pg/text@1']['output'] | null;
       readonly middle_name: CodecTypes['pg/text@1']['output'] | null;
+    };
+    readonly employee_role: {
+      readonly role_description: CodecTypes['pg/text@1']['output'];
+      readonly role_id: CodecTypes['pg/uuid@1']['output'];
+      readonly role_name: CodecTypes['pg/text@1']['output'];
     };
     readonly encounter: {
       readonly check_in_at: CodecTypes['pg/timestamptz-temporal@1']['output'];
@@ -415,9 +421,15 @@ export type FieldInputTypes = {
       readonly account_id: CodecTypes['pg/text@1']['input'];
       readonly added_at: CodecTypes['pg/timestamptz-temporal@1']['input'];
       readonly employee_id: CodecTypes['pg/uuid@1']['input'];
+      readonly empolyee_role: CodecTypes['pg/uuid@1']['input'];
       readonly first_name: CodecTypes['pg/text@1']['input'] | null;
       readonly last_name: CodecTypes['pg/text@1']['input'] | null;
       readonly middle_name: CodecTypes['pg/text@1']['input'] | null;
+    };
+    readonly employee_role: {
+      readonly role_description: CodecTypes['pg/text@1']['input'];
+      readonly role_id: CodecTypes['pg/uuid@1']['input'];
+      readonly role_name: CodecTypes['pg/text@1']['input'];
     };
     readonly encounter: {
       readonly check_in_at: CodecTypes['pg/timestamptz-temporal@1']['input'];
@@ -552,9 +564,15 @@ export type StorageColumnTypes = {
       readonly account_id: CodecTypes['pg/text@1']['output'];
       readonly added_at: CodecTypes['pg/timestamptz-temporal@1']['output'];
       readonly employee_id: CodecTypes['pg/uuid@1']['output'];
+      readonly empolyee_role: CodecTypes['pg/uuid@1']['output'];
       readonly first_name: CodecTypes['pg/text@1']['output'] | null;
       readonly last_name: CodecTypes['pg/text@1']['output'] | null;
       readonly middle_name: CodecTypes['pg/text@1']['output'] | null;
+    };
+    readonly employee_role: {
+      readonly role_description: CodecTypes['pg/text@1']['output'];
+      readonly role_id: CodecTypes['pg/uuid@1']['output'];
+      readonly role_name: CodecTypes['pg/text@1']['output'];
     };
     readonly encounter: {
       readonly check_in_at: CodecTypes['pg/timestamptz-temporal@1']['output'];
@@ -689,9 +707,15 @@ export type StorageColumnInputTypes = {
       readonly account_id: CodecTypes['pg/text@1']['input'];
       readonly added_at: CodecTypes['pg/timestamptz-temporal@1']['input'];
       readonly employee_id: CodecTypes['pg/uuid@1']['input'];
+      readonly empolyee_role: CodecTypes['pg/uuid@1']['input'];
       readonly first_name: CodecTypes['pg/text@1']['input'] | null;
       readonly last_name: CodecTypes['pg/text@1']['input'] | null;
       readonly middle_name: CodecTypes['pg/text@1']['input'] | null;
+    };
+    readonly employee_role: {
+      readonly role_description: CodecTypes['pg/text@1']['input'];
+      readonly role_id: CodecTypes['pg/uuid@1']['input'];
+      readonly role_name: CodecTypes['pg/text@1']['input'];
     };
     readonly encounter: {
       readonly check_in_at: CodecTypes['pg/timestamptz-temporal@1']['input'];
@@ -841,11 +865,19 @@ export namespace Models {
     account_id: CodecTypes['pg/text@1']['output'];
     added_at: CodecTypes['pg/timestamptz-temporal@1']['output'];
     employee_id: CodecTypes['pg/uuid@1']['output'];
+    empolyee_role: CodecTypes['pg/uuid@1']['output'];
     first_name: CodecTypes['pg/text@1']['output'] | null;
     last_name: CodecTypes['pg/text@1']['output'] | null;
     middle_name: CodecTypes['pg/text@1']['output'] | null;
     account: public_account;
-    readonly [RelationKeys]?: 'account';
+    employerole: public_employee_role;
+    readonly [RelationKeys]?: 'account' | 'employerole';
+  };
+  export type public_employee_role = {
+    role_description: CodecTypes['pg/text@1']['output'];
+    role_id: CodecTypes['pg/uuid@1']['output'];
+    role_name: CodecTypes['pg/text@1']['output'];
+    readonly [RelationKeys]?: never;
   };
   export type public_encounter = {
     check_in_at: CodecTypes['pg/timestamptz-temporal@1']['output'];
@@ -973,6 +1005,7 @@ export declare const models: {
     differential_diagnosis: Models.public_differential_diagnosis;
     dispensing: Models.public_dispensing;
     employee: Models.public_employee;
+    employee_role: Models.public_employee_role;
     encounter: Models.public_encounter;
     final_diagnosis: Models.public_final_diagnosis;
     inventory: Models.public_inventory;
@@ -1370,6 +1403,12 @@ type ContractBase = Omit<
                   readonly nullable: false;
                   readonly many: false;
                 };
+                readonly empolyee_role: {
+                  readonly dataType: 'pg/uuid';
+                  readonly codecId: 'pg/uuid@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
                 readonly first_name: {
                   readonly dataType: 'pg/text';
                   readonly codecId: 'pg/text@1';
@@ -1390,7 +1429,10 @@ type ContractBase = Omit<
                 };
               };
               primaryKey: { readonly columns: readonly ['employee_id'] };
-              uniques: readonly [{ readonly columns: readonly ['account_id'] }];
+              uniques: readonly [
+                { readonly columns: readonly ['account_id'] },
+                { readonly columns: readonly ['empolyee_role'] },
+              ];
               indexes: readonly [];
               foreignKeys: readonly [
                 {
@@ -1405,7 +1447,45 @@ type ContractBase = Omit<
                     readonly columns: readonly ['account_id'];
                   };
                 },
+                {
+                  readonly source: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'employee';
+                    readonly columns: readonly ['empolyee_role'];
+                  };
+                  readonly target: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'employee_role';
+                    readonly columns: readonly ['role_id'];
+                  };
+                },
               ];
+            };
+            readonly employee_role: {
+              columns: {
+                readonly role_description: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly role_id: {
+                  readonly dataType: 'pg/uuid';
+                  readonly codecId: 'pg/uuid@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly role_name: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+              };
+              primaryKey: { readonly columns: readonly ['role_id'] };
+              uniques: readonly [];
+              indexes: readonly [];
+              foreignKeys: readonly [];
             };
             readonly encounter: {
               columns: {
@@ -2130,6 +2210,10 @@ type ContractBase = Omit<
       readonly model: 'dispensing';
     };
     readonly employee: { readonly namespace: 'public' & NamespaceId; readonly model: 'employee' };
+    readonly employee_role: {
+      readonly namespace: 'public' & NamespaceId;
+      readonly model: 'employee_role';
+    };
     readonly encounter: { readonly namespace: 'public' & NamespaceId; readonly model: 'encounter' };
     readonly final_diagnosis: {
       readonly namespace: 'public' & NamespaceId;
@@ -2498,6 +2582,10 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/uuid@1' };
               };
+              readonly empolyee_role: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/uuid@1' };
+              };
               readonly first_name: {
                 readonly nullable: true;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
@@ -2524,6 +2612,18 @@ type ContractBase = Omit<
                   readonly targetFields: readonly ['account_id'];
                 };
               };
+              readonly employerole: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'employee_role';
+                };
+                readonly cardinality: 'N:1';
+                readonly nullable: false;
+                readonly on: {
+                  readonly localFields: readonly ['empolyee_role'];
+                  readonly targetFields: readonly ['role_id'];
+                };
+              };
             };
             readonly storage: {
               readonly table: 'employee';
@@ -2532,9 +2632,36 @@ type ContractBase = Omit<
                 readonly account_id: { readonly column: 'account_id' };
                 readonly added_at: { readonly column: 'added_at' };
                 readonly employee_id: { readonly column: 'employee_id' };
+                readonly empolyee_role: { readonly column: 'empolyee_role' };
                 readonly first_name: { readonly column: 'first_name' };
                 readonly last_name: { readonly column: 'last_name' };
                 readonly middle_name: { readonly column: 'middle_name' };
+              };
+            };
+          };
+          readonly employee_role: {
+            readonly fields: {
+              readonly role_description: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly role_id: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/uuid@1' };
+              };
+              readonly role_name: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+            };
+            readonly relations: Record<string, never>;
+            readonly storage: {
+              readonly table: 'employee_role';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly role_description: { readonly column: 'role_description' };
+                readonly role_id: { readonly column: 'role_id' };
+                readonly role_name: { readonly column: 'role_name' };
               };
             };
           };
@@ -3310,6 +3437,14 @@ type ContractBase = Omit<
           readonly ref: {
             readonly entry: 'employee';
             readonly field: 'employee_id';
+            readonly namespace: 'public';
+          };
+        },
+        {
+          readonly onCreate: { readonly id: 'uuidv4'; readonly kind: 'generator' };
+          readonly ref: {
+            readonly entry: 'employee_role';
+            readonly field: 'role_id';
             readonly namespace: 'public';
           };
         },
