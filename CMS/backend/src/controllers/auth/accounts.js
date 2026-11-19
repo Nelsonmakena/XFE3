@@ -4,6 +4,12 @@ import jwt from "jsonwebtoken";
 
 export const newAccountRole = async (req, res) => {
   const { role_name } = req.body;
+  if (!role_name) {
+    return res.status(400).json({
+      success: false,
+      message: "all filleds must be filled",
+    });
+  }
   try {
     const role = await db.orm.public.account_role.create({
       role_name: role_name,
@@ -28,11 +34,19 @@ export const accountRoleList = async (req, res) => {
     });
   } catch (error) {
     console.log(error.message);
-    res.status(400).json({ success: false, message: " error" });
+    res
+      .status(400)
+      .json({ success: false, message: " error list cant be displayed" });
   }
 };
 export const removeAccountRole = async (req, res) => {
   const { account_role_id } = req.params;
+  if (!account_role_id) {
+    return res.status(400).json({
+      success: false,
+      message: "account id not found",
+    });
+  }
   try {
     const deletedRole = await db.orm.public.account_role
       .where({ account_role_id: account_role_id })
@@ -52,7 +66,14 @@ export const removeAccountRole = async (req, res) => {
 
 //general account creation
 export const newEmployee = async (req, res) => {
-  const { email, account_role_id } = req.body;
+  const { email, account_role_id, role_id } = req.body;
+
+  if (!email || !account_role_id || !role_id) {
+    return res.status(400).json({
+      success: false,
+      message: "all filleds must be filled",
+    });
+  }
   const password = "1234";
   const hashedPassword = bcrypt.hashSync(password, 10);
   try {
@@ -64,6 +85,7 @@ export const newEmployee = async (req, res) => {
       });
       const employee = await tx.orm.public.employee.create({
         account_id: account.account_id,
+        empolyee_role: role_id,
       });
       return { email: account.email, employee_id: employee.employee_id };
     });

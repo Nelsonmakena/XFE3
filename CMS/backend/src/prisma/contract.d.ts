@@ -18,7 +18,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'b7e1e6d4437e3f8f0464a86f95fed210149c382b46c2c6a7803282357eea60cf'>;
+  StorageHashBase<'527d26a5391245a45e33488bb3c8ce3bb1ad6580267570e5e2a976570ada8b4d'>;
 export type ExecutionHash =
   ExecutionHashBase<'e52e3b9ddac07f7955dd21e23829e5439b342b16cf0ec9d83ee7baa8e72e78aa'>;
 export type ProfileHash =
@@ -877,7 +877,8 @@ export namespace Models {
     role_description: CodecTypes['pg/text@1']['output'];
     role_id: CodecTypes['pg/uuid@1']['output'];
     role_name: CodecTypes['pg/text@1']['output'];
-    readonly [RelationKeys]?: never;
+    employees: public_employee[];
+    readonly [RelationKeys]?: 'employees';
   };
   export type public_encounter = {
     check_in_at: CodecTypes['pg/timestamptz-temporal@1']['output'];
@@ -1429,11 +1430,15 @@ type ContractBase = Omit<
                 };
               };
               primaryKey: { readonly columns: readonly ['employee_id'] };
-              uniques: readonly [
-                { readonly columns: readonly ['account_id'] },
-                { readonly columns: readonly ['empolyee_role'] },
+              uniques: readonly [{ readonly columns: readonly ['account_id'] }];
+              indexes: readonly [
+                {
+                  readonly name: 'employee_empolyee_role_idx_03bf8d99';
+                  readonly prefix: 'employee_empolyee_role_idx';
+                  readonly columns: readonly ['empolyee_role'];
+                  readonly unique: false;
+                },
               ];
-              indexes: readonly [];
               foreignKeys: readonly [
                 {
                   readonly source: {
@@ -2654,7 +2659,19 @@ type ContractBase = Omit<
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
             };
-            readonly relations: Record<string, never>;
+            readonly relations: {
+              readonly employees: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'employee';
+                };
+                readonly cardinality: '1:N';
+                readonly on: {
+                  readonly localFields: readonly ['role_id'];
+                  readonly targetFields: readonly ['empolyee_role'];
+                };
+              };
+            };
             readonly storage: {
               readonly table: 'employee_role';
               readonly namespaceId: 'public';

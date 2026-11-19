@@ -700,7 +700,23 @@
                 }
               }
             },
-            "relations": {},
+            "relations": {
+              "employees": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "role_id"
+                  ],
+                  "targetFields": [
+                    "empolyee_role"
+                  ]
+                },
+                "to": {
+                  "model": "employee",
+                  "namespace": "public"
+                }
+              }
+            },
             "storage": {
               "fields": {
                 "role_description": {
@@ -2237,9 +2253,7 @@
                 },
                 {
                   "index": {
-                    "unique": [
-                      "empolyee_role"
-                    ]
+                    "name": "employee_empolyee_role_idx_03bf8d99"
                   },
                   "source": {
                     "columns": [
@@ -2257,7 +2271,16 @@
                   }
                 }
               ],
-              "indexes": [],
+              "indexes": [
+                {
+                  "columns": [
+                    "empolyee_role"
+                  ],
+                  "name": "employee_empolyee_role_idx_03bf8d99",
+                  "prefix": "employee_empolyee_role_idx",
+                  "unique": false
+                }
+              ],
               "primaryKey": {
                 "columns": [
                   "employee_id"
@@ -2267,11 +2290,6 @@
                 {
                   "columns": [
                     "account_id"
-                  ]
-                },
-                {
-                  "columns": [
-                    "empolyee_role"
                   ]
                 }
               ]
@@ -3126,7 +3144,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "b7e1e6d4437e3f8f0464a86f95fed210149c382b46c2c6a7803282357eea60cf"
+    "storageHash": "527d26a5391245a45e33488bb3c8ce3bb1ad6580267570e5e2a976570ada8b4d"
   },
   "execution": {
     "executionHash": "e52e3b9ddac07f7955dd21e23829e5439b342b16cf0ec9d83ee7baa8e72e78aa",
