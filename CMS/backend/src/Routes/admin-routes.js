@@ -7,7 +7,10 @@ import {
   accountList,
 } from "../controllers/auth/accounts.js";
 import { patientList } from "../controllers/patient.js";
+import { authenticate, checkAdmin } from "../middlewares/auth.js";
 const Router = express.Router();
+
+Router.use(authenticate, checkAdmin);
 
 //new account role
 Router.put("/account-role", newAccountRole);

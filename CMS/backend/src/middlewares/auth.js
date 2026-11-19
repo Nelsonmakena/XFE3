@@ -19,10 +19,24 @@ export const authenticate = async (req, res, next) => {
 export const checkEmployee = async (req, res, next) => {
   const { employee_id } = req.userInfo;
   try {
-    if (!employee_id) {
-      return res.status(401).json({ success: false, message: "unauthorized" });
+    if (employee_id) {
+      return next();
     }
-    next();
+    return res.status(401).json({ success: false, message: "unauthorized" });
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({ success: false, message: "server error" });
+  }
+};
+
+//check admin
+export const checkAdmin = async (req, res, next) => {
+  const { role } = req.userInfo;
+  try {
+    if (role === "admin") {
+      return next();
+    }
+    return res.status(401).json({ success: false, message: "unauthorized" });
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({ success: false, message: "server error" });
